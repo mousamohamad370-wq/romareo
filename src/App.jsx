@@ -21,6 +21,12 @@ from './pages/Login'
 import Register
 from './pages/Register'
 
+import Wallet
+from './pages/Wallet'
+
+import Orders
+from './pages/Orders'
+
 function App() {
 
   return (
@@ -55,6 +61,18 @@ function App() {
           <Route
             path="/register"
             element={<Register />}
+          />
+
+          {/* DASHBOARD */}
+
+          <Route
+            path="/wallet"
+            element={<Wallet />}
+          />
+
+          <Route
+            path="/orders"
+            element={<Orders />}
           />
 
         </Routes>
