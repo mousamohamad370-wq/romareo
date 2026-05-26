@@ -27,6 +27,9 @@ from './pages/Wallet'
 import Orders
 from './pages/Orders'
 
+import Profile
+from './pages/Profile'
+
 function App() {
 
   return (
@@ -73,6 +76,11 @@ function App() {
           <Route
             path="/orders"
             element={<Orders />}
+          />
+
+          <Route
+            path="/profile"
+            element={<Profile />}
           />
 
         </Routes>
