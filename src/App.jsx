@@ -1,28 +1,31 @@
-import Navbar from './components/layout/Navbar'
-import Hero from './sections/hero/Hero'
-import Categories from './sections/categories/Categories'
-import Services from './sections/services/Services'
-import HowItWorks from './sections/howItWorks/HowItWorks'
-import PaymentInfo from './sections/payment/PaymentInfo'
-import WhyChooseUs from './sections/trust/WhyChooseUs'
-import Stats from './sections/trust/Stats'
-import FAQ from './sections/faq/FAQ'
-import Footer from './sections/footer/Footer'
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom'
+
+import Layout from './components/layout/Layout'
+
+import Home from './pages/Home'
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <Hero />
-      <Categories />
-      <Services />
-      <HowItWorks />
-      <PaymentInfo />
-      <WhyChooseUs />
-      <Stats />
-      <FAQ />
-      <Footer />
-    </>
+    <BrowserRouter>
+
+      <Layout>
+
+        <Routes>
+
+          <Route
+            path="/"
+            element={<Home />}
+          />
+
+        </Routes>
+
+      </Layout>
+
+    </BrowserRouter>
   )
 }
 
