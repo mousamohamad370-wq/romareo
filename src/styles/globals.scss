@@ -1,0 +1,47 @@
+@use './base/reset';
+@use './base/variables';
+@use './base/typography';
+
+.container {
+  width: min(92%, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+}
+
+.primary-btn {
+  height: 55px;
+  padding: 0 32px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 700;
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-primary);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title p {
+  margin-top: 14px;
+}
