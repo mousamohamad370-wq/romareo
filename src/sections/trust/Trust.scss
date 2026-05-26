@@ -1,0 +1,90 @@
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.trust-card {
+  padding: 34px;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  border: 1px solid var(--border-color);
+
+  transition: var(--transition);
+}
+
+.trust-card:hover {
+  transform: translateY(-10px);
+
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+.trust-icon {
+  width: 78px;
+  height: 78px;
+
+  border-radius: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+
+  font-size: 30px;
+
+  margin-bottom: 24px;
+}
+
+.stats-section {
+  padding-bottom: 100px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.stats-card {
+  padding: 34px;
+
+  border-radius: 28px;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  border: 1px solid var(--border-color);
+}
+
+.stats-card h2 {
+  margin-bottom: 12px;
+
+  color: var(--secondary);
+}
+
+@media (max-width: 992px) {
+
+  .trust-grid,
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .trust-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

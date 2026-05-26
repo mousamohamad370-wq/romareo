@@ -4,6 +4,10 @@ import Categories from './sections/categories/Categories'
 import Services from './sections/services/Services'
 import HowItWorks from './sections/howItWorks/HowItWorks'
 import PaymentInfo from './sections/payment/PaymentInfo'
+import WhyChooseUs from './sections/trust/WhyChooseUs'
+import Stats from './sections/trust/Stats'
+import FAQ from './sections/faq/FAQ'
+import Footer from './sections/footer/Footer'
 
 function App() {
   return (
@@ -14,6 +18,10 @@ function App() {
       <Services />
       <HowItWorks />
       <PaymentInfo />
+      <WhyChooseUs />
+      <Stats />
+      <FAQ />
+      <Footer />
     </>
   )
 }
