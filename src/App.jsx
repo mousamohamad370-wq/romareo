@@ -15,6 +15,12 @@ import Home from './pages/Home'
 import ServiceDetails
 from './pages/ServiceDetails'
 
+import Login
+from './pages/Login'
+
+import Register
+from './pages/Register'
+
 function App() {
 
   return (
@@ -37,6 +43,18 @@ function App() {
           <Route
             path="/service/:id"
             element={<ServiceDetails />}
+          />
+
+          {/* AUTH */}
+
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/register"
+            element={<Register />}
           />
 
         </Routes>
