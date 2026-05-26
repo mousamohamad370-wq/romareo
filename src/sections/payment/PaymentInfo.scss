@@ -1,0 +1,129 @@
+.payment-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 40px;
+  align-items: center;
+}
+
+.payment-badge {
+  width: fit-content;
+
+  padding: 10px 18px;
+
+  border-radius: 100px;
+
+  background: rgba(6, 182, 212, 0.15);
+
+  color: #67e8f9;
+
+  margin-bottom: 24px;
+}
+
+.payment-content h2 {
+  margin-bottom: 24px;
+}
+
+.payment-features {
+  margin-top: 34px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.payment-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: var(--text-secondary);
+}
+
+.payment-feature svg {
+  color: var(--success);
+}
+
+.payment-card {
+  padding: 34px;
+
+  border-radius: 32px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid var(--border-color);
+
+  backdrop-filter: blur(12px);
+}
+
+.payment-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 30px;
+}
+
+.payment-top svg {
+  font-size: 30px;
+  color: var(--secondary);
+}
+
+.payment-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pay-step {
+  display: flex;
+  gap: 18px;
+}
+
+.pay-step span {
+  min-width: 38px;
+  height: 38px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+
+  font-weight: 700;
+}
+
+.whatsapp-btn {
+  margin-top: 34px;
+
+  width: 100%;
+  height: 58px;
+
+  border-radius: 16px;
+
+  background: #22c55e;
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+
+  .payment-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+}
