@@ -14,8 +14,17 @@ import {
 } from 'react'
 
 import {
-  useParams
+  useParams,
+  Navigate
 } from 'react-router-dom'
+
+import CheckoutDrawer
+from '../../components/checkout/CheckoutDrawer'
+
+/* DATA */
+
+import services
+from '../../data/services'
 
 function ServiceDetailsContent() {
 
@@ -24,235 +33,251 @@ function ServiceDetailsContent() {
   const [quantity, setQuantity] =
     useState(1)
 
-  /* MOCK DATA */
+  const [openCheckout, setOpenCheckout] =
+    useState(false)
 
-  const service = {
-    id,
+  /* GET SERVICE */
 
-    title: 'شحن PUBG UC',
+  const service =
+    services.find(
+      item =>
+        item.id === Number(id)
+    )
 
-    category: 'الألعاب',
+  /* NOT FOUND */
 
-    price: 5,
+  if (!service) {
 
-    rating: 4.9,
+    return (
+      <Navigate to="/" />
+    )
 
-    reviews: 1248,
-
-    image:
-      'https://images.unsplash.com/photo-1542751110-97427bbecf20',
-
-    description:
-      'خدمة شحن PUBG UC بشكل فوري وآمن لجميع الباقات مع دعم سريع وتنفيذ مضمون.',
-
-    features: [
-      'تنفيذ سريع وفوري',
-      'دعم متواصل 24/7',
-      'شحن آمن ومضمون',
-      'أفضل الأسعار المتوفرة'
-    ]
   }
+
+  /* TOTAL PRICE */
 
   const totalPrice =
     quantity * service.price
 
   return (
 
-    <section className="service-details section">
+    <>
 
-      <div className="container">
+      {/* CHECKOUT DRAWER */}
 
-        <div className="details-grid">
+      <CheckoutDrawer
+        open={openCheckout}
+        setOpen={setOpenCheckout}
+        service={service}
+        quantity={quantity}
+        totalPrice={totalPrice}
+      />
 
-          {/* LEFT SIDE */}
+      <section className="service-details section">
 
-          <div className="details-content">
+        <div className="container">
 
-            {/* IMAGE */}
+          <div className="details-grid">
 
-            <div className="details-image">
+            {/* LEFT SIDE */}
 
-              <img
-                src={service.image}
-                alt={service.title}
-              />
+            <div className="details-content">
+
+              {/* IMAGE */}
+
+              <div className="details-image">
+
+                <img
+                  src={service.image}
+                  alt={service.title}
+                />
+
+              </div>
+
+              {/* INFO */}
+
+              <div className="details-info">
+
+                <div className="details-category">
+
+                  {service.category}
+
+                </div>
+
+                <h1>
+                  {service.title}
+                </h1>
+
+                {/* RATING */}
+
+                <div className="details-rating">
+
+                  <FiStar />
+
+                  <span>
+                    {service.rating}
+                  </span>
+
+                  <small>
+                    ({service.reviews} مراجعة)
+                  </small>
+
+                </div>
+
+                {/* DESCRIPTION */}
+
+                <p className="details-description">
+
+                  {service.description}
+
+                </p>
+
+                {/* FEATURES */}
+
+                <div className="details-features">
+
+                  {service.features.map(
+                    (feature, index) => (
+
+                      <div
+                        className="feature-box"
+                        key={index}
+                      >
+
+                        <FiCheckCircle />
+
+                        <span>
+                          {feature}
+                        </span>
+
+                      </div>
+
+                    )
+                  )}
+
+                </div>
+
+              </div>
 
             </div>
 
-            {/* INFO */}
+            {/* RIGHT SIDE */}
 
-            <div className="details-info">
+            <div className="purchase-card">
 
-              <div className="details-category">
+              {/* TOP */}
 
-                {service.category}
+              <div className="purchase-top">
+
+                <h3>
+                  ابدأ الطلب الآن
+                </h3>
+
+                <div className="purchase-price">
+
+                  ${service.price}
+
+                </div>
 
               </div>
 
-              <h1>
-                {service.title}
-              </h1>
+              {/* QUANTITY */}
 
-              {/* RATING */}
-
-              <div className="details-rating">
-
-                <FiStar />
+              <div className="quantity-box">
 
                 <span>
-                  {service.rating}
+                  الكمية
                 </span>
 
-                <small>
-                  ({service.reviews} مراجعة)
-                </small>
+                <div className="quantity-controls">
+
+                  <button
+                    onClick={() =>
+                      setQuantity(
+                        quantity > 1
+                          ? quantity - 1
+                          : 1
+                      )
+                    }
+                  >
+
+                    <FiMinus />
+
+                  </button>
+
+                  <strong>
+                    {quantity}
+                  </strong>
+
+                  <button
+                    onClick={() =>
+                      setQuantity(
+                        quantity + 1
+                      )
+                    }
+                  >
+
+                    <FiPlus />
+
+                  </button>
+
+                </div>
 
               </div>
 
-              {/* DESCRIPTION */}
+              {/* TOTAL */}
 
-              <p className="details-description">
+              <div className="total-price">
 
-                {service.description}
+                <span>
+                  السعر الإجمالي
+                </span>
 
-              </p>
+                <strong>
+
+                  ${totalPrice}
+
+                </strong>
+
+              </div>
+
+              {/* BUTTON */}
+
+              <button
+                className="buy-btn"
+
+                onClick={() =>
+                  setOpenCheckout(true)
+                }
+              >
+
+                اطلب الآن
+
+              </button>
 
               {/* FEATURES */}
 
-              <div className="details-features">
+              <div className="purchase-features">
 
-                {service.features.map(
-                  (feature, index) => (
+                <div>
 
-                    <div
-                      className="feature-box"
-                      key={index}
-                    >
+                  <FiShield />
 
-                      <FiCheckCircle />
+                  <span>
+                    دفع آمن
+                  </span>
 
-                      <span>
-                        {feature}
-                      </span>
+                </div>
 
-                    </div>
+                <div>
 
-                  )
-                )}
+                  <FiZap />
 
-              </div>
+                  <span>
+                    تنفيذ سريع
+                  </span>
 
-            </div>
-
-          </div>
-
-          {/* RIGHT SIDE */}
-
-          <div className="purchase-card">
-
-            {/* TOP */}
-
-            <div className="purchase-top">
-
-              <h3>
-                ابدأ الطلب الآن
-              </h3>
-
-              <div className="purchase-price">
-
-                ${service.price}
-
-              </div>
-
-            </div>
-
-            {/* QUANTITY */}
-
-            <div className="quantity-box">
-
-              <span>
-                الكمية
-              </span>
-
-              <div className="quantity-controls">
-
-                <button
-                  onClick={() =>
-                    setQuantity(
-                      quantity > 1
-                        ? quantity - 1
-                        : 1
-                    )
-                  }
-                >
-
-                  <FiMinus />
-
-                </button>
-
-                <strong>
-                  {quantity}
-                </strong>
-
-                <button
-                  onClick={() =>
-                    setQuantity(
-                      quantity + 1
-                    )
-                  }
-                >
-
-                  <FiPlus />
-
-                </button>
-
-              </div>
-
-            </div>
-
-            {/* TOTAL */}
-
-            <div className="total-price">
-
-              <span>
-                السعر الإجمالي
-              </span>
-
-              <strong>
-                ${totalPrice}
-              </strong>
-
-            </div>
-
-            {/* BUTTON */}
-
-            <button className="buy-btn">
-
-              اطلب الآن
-
-            </button>
-
-            {/* FEATURES */}
-
-            <div className="purchase-features">
-
-              <div>
-
-                <FiShield />
-
-                <span>
-                  دفع آمن
-                </span>
-
-              </div>
-
-              <div>
-
-                <FiZap />
-
-                <span>
-                  تنفيذ سريع
-                </span>
+                </div>
 
               </div>
 
@@ -262,9 +287,10 @@ function ServiceDetailsContent() {
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+    </>
+
   )
 }
 

@@ -12,7 +12,13 @@ import {
 import { motion }
 from 'framer-motion'
 
+import {
+  useNavigate
+} from 'react-router-dom'
+
 function Hero() {
+
+  const navigate = useNavigate()
 
   return (
 
@@ -96,7 +102,11 @@ function Hero() {
 
             </div>
 
-            <button>
+            <button
+              onClick={() =>
+                navigate('/marketplace')
+              }
+            >
 
               بحث
 
@@ -108,7 +118,13 @@ function Hero() {
 
           <div className="hero-buttons">
 
-            <button className="primary-btn">
+            <button
+              className="primary-btn"
+
+              onClick={() =>
+                navigate('/marketplace')
+              }
+            >
 
               ابدأ الآن
 
@@ -116,7 +132,13 @@ function Hero() {
 
             </button>
 
-            <button className="secondary-btn">
+            <button
+              className="secondary-btn"
+
+              onClick={() =>
+                navigate('/marketplace')
+              }
+            >
 
               تصفح الخدمات
 
@@ -224,7 +246,11 @@ function Hero() {
 
             </div>
 
-            <button>
+            <button
+              onClick={() =>
+                navigate('/service/1')
+              }
+            >
 
               اطلب الآن
 
@@ -246,6 +272,14 @@ function Hero() {
               transition={{
                 duration: 5,
                 repeat: Infinity
+              }}
+
+              onClick={() =>
+                navigate('/service/2')
+              }
+
+              style={{
+                cursor: 'pointer'
               }}
             >
 
@@ -269,6 +303,14 @@ function Hero() {
               transition={{
                 duration: 6,
                 repeat: Infinity
+              }}
+
+              onClick={() =>
+                navigate('/service/3')
+              }
+
+              style={{
+                cursor: 'pointer'
               }}
             >
 

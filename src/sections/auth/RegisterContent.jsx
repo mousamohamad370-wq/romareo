@@ -9,10 +9,136 @@ import {
 } from 'react-icons/fi'
 
 import {
-  Link
+  Link,
+  useNavigate
 } from 'react-router-dom'
 
+import {
+  useState
+} from 'react'
+
+/* TOAST */
+
+import toast
+from 'react-hot-toast'
+
+/* AUTH */
+
+import {
+  useAuth
+} from '../../context/AuthContext'
+
+/* UI */
+
+import Button
+from '../../components/ui/Button'
+
+import Input
+from '../../components/ui/Input'
+
 function RegisterContent() {
+
+  const navigate = useNavigate()
+
+  const {
+    login
+  } = useAuth()
+
+  const [loading, setLoading] =
+    useState(false)
+
+  /* FORM STATE */
+
+  const [formData, setFormData] =
+    useState({
+      name: '',
+      email: '',
+      phone: '',
+      password: ''
+    })
+
+  /* HANDLE CHANGE */
+
+  const handleChange = (e) => {
+
+    setFormData({
+
+      ...formData,
+
+      [e.target.name]:
+        e.target.value
+
+    })
+
+  }
+
+  /* HANDLE REGISTER */
+
+  const handleRegister = (e) => {
+
+    e.preventDefault()
+
+    /* VALIDATION */
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.password
+    ) {
+
+      toast.error(
+        'يرجى تعبئة جميع الحقول'
+      )
+
+      return
+    }
+
+    setLoading(true)
+
+    setTimeout(() => {
+
+      /* MOCK USER */
+
+      const userData = {
+
+        id:
+          'RM-' +
+          Math.floor(
+            100000 +
+            Math.random() * 900000
+          ),
+
+        name: formData.name,
+
+        email: formData.email,
+
+        phone: formData.phone,
+
+        wallet: 0
+      }
+
+      /* LOGIN */
+
+      login(userData)
+
+      /* SUCCESS */
+
+      toast.success(
+        'تم إنشاء الحساب بنجاح'
+      )
+
+      setLoading(false)
+
+      setTimeout(() => {
+
+        navigate('/profile')
+
+      }, 400)
+
+    }, 1500)
+
+  }
 
   return (
 
@@ -83,104 +209,119 @@ function RegisterContent() {
 
             {/* FORM */}
 
-            <form className="auth-form">
+            <form
+              className="auth-form"
+
+              onSubmit={handleRegister}
+            >
 
               {/* NAME */}
 
-              <div className="input-group">
+              <Input
+                label="الاسم الكامل"
 
-                <label>
-                  الاسم الكامل
-                </label>
+                type="text"
 
-                <div className="input-box">
+                name="name"
 
-                  <FiUser />
+                placeholder="الاسم الكامل"
 
-                  <input
-                    type="text"
-                    placeholder="الاسم الكامل"
-                  />
+                required={true}
 
-                </div>
+                value={formData.name}
 
-              </div>
+                onChange={handleChange}
+
+                icon={<FiUser />}
+              />
 
               {/* EMAIL */}
 
-              <div className="input-group">
+              <Input
+                label="البريد الإلكتروني"
 
-                <label>
-                  البريد الإلكتروني
-                </label>
+                type="email"
 
-                <div className="input-box">
+                name="email"
 
-                  <FiMail />
+                placeholder="example@email.com"
 
-                  <input
-                    type="email"
-                    placeholder="example@email.com"
-                  />
+                required={true}
 
-                </div>
+                value={formData.email}
 
-              </div>
+                onChange={handleChange}
+
+                icon={<FiMail />}
+              />
 
               {/* PHONE */}
 
-              <div className="input-group">
+              <Input
+                label="رقم الهاتف"
 
-                <label>
-                  رقم الهاتف
-                </label>
+                type="text"
 
-                <div className="input-box">
+                name="phone"
 
-                  <FiPhone />
+                placeholder="+961 XX XXX XXX"
 
-                  <input
-                    type="text"
-                    placeholder="+961 XX XXX XXX"
-                  />
+                required={true}
 
-                </div>
+                value={formData.phone}
 
-              </div>
+                onChange={handleChange}
+
+                icon={<FiPhone />}
+              />
 
               {/* PASSWORD */}
 
-              <div className="input-group">
+              <Input
+                label="كلمة المرور"
 
-                <label>
-                  كلمة المرور
-                </label>
+                type="password"
 
-                <div className="input-box">
+                name="password"
 
-                  <FiLock />
+                placeholder="********"
 
-                  <input
-                    type="password"
-                    placeholder="********"
-                  />
+                required={true}
 
-                </div>
+                value={formData.password}
 
-              </div>
+                onChange={handleChange}
+
+                icon={<FiLock />}
+              />
 
               {/* BUTTON */}
 
-              <button
+              <Button
                 type="submit"
+
+                variant="primary"
+
+                size="lg"
+
+                fullWidth={true}
+
+                disabled={loading}
+
                 className="auth-btn"
+
+                icon={
+                  !loading &&
+                  <FiArrowLeft />
+                }
               >
 
-                إنشاء الحساب
+                {loading
+                  ? 'جاري إنشاء الحساب...'
+                  : 'إنشاء الحساب'
+                }
 
-                <FiArrowLeft />
-
-              </button>
+              </Button>
 
             </form>
 

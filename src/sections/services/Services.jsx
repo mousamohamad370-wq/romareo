@@ -9,73 +9,14 @@ import {
   FiStar
 } from 'react-icons/fi'
 
-const servicesData = [
-  {
-    id: 1,
-    title: 'شحن PUBG UC',
-    category: 'الألعاب',
-    price: '$5',
-    rating: '4.9',
-    popular: true,
-    image:
-      'https://images.unsplash.com/photo-1542751110-97427bbecf20'
-  },
+import {
+  useNavigate
+} from 'react-router-dom'
 
-  {
-    id: 2,
-    title: 'ChatGPT Plus',
-    category: 'اشتراكات',
-    price: '$20',
-    rating: '5.0',
-    popular: true,
-    image:
-      'https://images.unsplash.com/photo-1677442136019-21780ecad995'
-  },
+/* DATA */
 
-  {
-    id: 3,
-    title: 'Netflix Premium',
-    category: 'اشتراكات',
-    price: '$8',
-    rating: '4.8',
-    popular: false,
-    image:
-      'https://images.unsplash.com/photo-1524985069026-dd778a71c7b4'
-  },
-
-  {
-    id: 4,
-    title: 'TikTok Followers',
-    category: 'سوشال',
-    price: '$10',
-    rating: '4.7',
-    popular: true,
-    image:
-      'https://images.unsplash.com/photo-1611162618071-b39a2ec055fb'
-  },
-
-  {
-    id: 5,
-    title: 'Google Play Cards',
-    category: 'بطاقات',
-    price: '$15',
-    rating: '4.9',
-    popular: false,
-    image:
-      'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da'
-  },
-
-  {
-    id: 6,
-    title: 'أرقام أمريكية',
-    category: 'أرقام',
-    price: '$3',
-    rating: '4.6',
-    popular: false,
-    image:
-      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c'
-  }
-]
+import servicesData
+from '../../data/services'
 
 const filters = [
   'الكل',
@@ -88,8 +29,12 @@ const filters = [
 
 function Services() {
 
+  const navigate = useNavigate()
+
   const [activeFilter, setActiveFilter] =
     useState('الكل')
+
+  /* FILTERED SERVICES */
 
   const filteredServices =
     activeFilter === 'الكل'
@@ -157,6 +102,16 @@ function Services() {
             <div
               className="service-item"
               key={service.id}
+
+              onClick={() =>
+                navigate(
+                  `/service/${service.id}`
+                )
+              }
+
+              style={{
+                cursor: 'pointer'
+              }}
             >
 
               {/* IMAGE */}
@@ -215,8 +170,9 @@ function Services() {
                 {/* DESCRIPTION */}
 
                 <p>
-                  خدمة رقمية سريعة وآمنة
-                  بجودة عالية وتنفيذ فوري.
+
+                  {service.description}
+
                 </p>
 
                 {/* BOTTOM */}
@@ -228,12 +184,24 @@ function Services() {
                     يبدأ من
 
                     <strong>
-                      {service.price}
+
+                      ${service.price}
+
                     </strong>
 
                   </div>
 
-                  <button>
+                  <button
+                    onClick={(e) => {
+
+                      e.stopPropagation()
+
+                      navigate(
+                        `/service/${service.id}`
+                      )
+
+                    }}
+                  >
 
                     اطلب الآن
 

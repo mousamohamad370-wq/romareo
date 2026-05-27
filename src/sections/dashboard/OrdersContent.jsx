@@ -8,48 +8,46 @@ import {
   FiArrowLeft
 } from 'react-icons/fi'
 
-const orders = [
-  {
-    id: '#1025',
-    service: 'شحن PUBG UC',
-    price: '$15',
-    status: 'completed',
-    date: 'منذ ساعتين'
-  },
+/* WALLET */
 
-  {
-    id: '#1024',
-    service: 'ChatGPT Plus',
-    price: '$20',
-    status: 'processing',
-    date: 'اليوم'
-  },
+import {
+  useWallet
+} from '../../context/WalletContext'
 
-  {
-    id: '#1023',
-    service: 'Netflix Premium',
-    price: '$8',
-    status: 'rejected',
-    date: 'أمس'
-  }
-]
+/* UI */
+
+import EmptyState
+from '../../components/ui/EmptyState'
+
+import Button
+from '../../components/ui/Button'
 
 function OrdersContent() {
 
+  const {
+    orders
+  } = useWallet()
+
+  /* STATUS DATA */
+
   const statusData = {
-    completed: {
-      text: 'مكتمل',
-      icon: <FiCheckCircle />
-    },
 
-    processing: {
+    'قيد التنفيذ': {
       text: 'قيد التنفيذ',
-      icon: <FiClock />
+      icon: <FiClock />,
+      className: 'processing'
     },
 
-    rejected: {
+    'مكتملة': {
+      text: 'مكتمل',
+      icon: <FiCheckCircle />,
+      className: 'completed'
+    },
+
+    'مرفوض': {
       text: 'مرفوض',
-      icon: <FiXCircle />
+      icon: <FiXCircle />,
+      className: 'rejected'
     }
   }
 
@@ -77,7 +75,7 @@ function OrdersContent() {
 
         </div>
 
-        {/* ORDERS LIST */}
+        {/* ORDERS */}
 
         <div className="dashboard-box">
 
@@ -89,90 +87,133 @@ function OrdersContent() {
 
           </div>
 
-          <div className="orders-list">
+          {/* EMPTY */}
 
-            {orders.map(order => (
+          {orders.length === 0 ? (
 
-              <div
-                className="order-item"
-                key={order.id}
-              >
+            <EmptyState
+              icon={<FiPackage />}
 
-                {/* LEFT */}
+              title="لا توجد طلبات حتى الآن"
 
-                <div className="order-left">
+              description="
+              قم بطلب خدمة لتظهر
+              جميع الطلبات هنا
+              "
 
-                  <div className="order-icon">
+              action={
 
-                    <FiPackage />
+                <Button
+                  variant="primary"
+                  size="md"
+                >
+
+                  استكشف الخدمات
+
+                </Button>
+
+              }
+            />
+
+          ) : (
+
+            <div className="orders-list">
+
+              {orders.map(order => (
+
+                <div
+                  className="order-item"
+                  key={order.id}
+                >
+
+                  {/* LEFT */}
+
+                  <div className="order-left">
+
+                    <div className="order-icon">
+
+                      <FiPackage />
+
+                    </div>
+
+                    <div className="order-info">
+
+                      <h4>
+                        {order.serviceTitle}
+                      </h4>
+
+                      <span>
+
+                        رقم الطلب:
+                        {' '}
+                        #{order.id}
+
+                      </span>
+
+                    </div>
 
                   </div>
 
-                  <div className="order-info">
+                  {/* CENTER */}
 
-                    <h4>
-                      {order.service}
-                    </h4>
+                  <div className="order-date">
 
-                    <span>
-                      رقم الطلب:
-                      {' '}
-                      {order.id}
-                    </span>
+                    {order.date}
+
+                  </div>
+
+                  {/* RIGHT */}
+
+                  <div className="order-right">
+
+                    <strong>
+
+                      ${order.totalPrice}
+
+                    </strong>
+
+                    <div
+                      className={`order-status ${
+                        statusData[
+                          order.status
+                        ]?.className
+                      }`}
+                    >
+
+                      {
+                        statusData[
+                          order.status
+                        ]?.icon
+                      }
+
+                      {
+                        statusData[
+                          order.status
+                        ]?.text
+                      }
+
+                    </div>
+
+                    <Button
+                      variant="secondary"
+                      size="sm"
+
+                      icon={<FiArrowLeft />}
+                    >
+
+                      التفاصيل
+
+                    </Button>
 
                   </div>
 
                 </div>
 
-                {/* CENTER */}
+              ))}
 
-                <div className="order-date">
+            </div>
 
-                  {order.date}
-
-                </div>
-
-                {/* RIGHT */}
-
-                <div className="order-right">
-
-                  <strong>
-                    {order.price}
-                  </strong>
-
-                  <div
-                    className={`order-status ${
-                      order.status
-                    }`}
-                  >
-
-                    {statusData[
-                      order.status
-                    ].icon}
-
-                    {
-                      statusData[
-                        order.status
-                      ].text
-                    }
-
-                  </div>
-
-                  <button>
-
-                    التفاصيل
-
-                    <FiArrowLeft />
-
-                  </button>
-
-                </div>
-
-              </div>
-
-            ))}
-
-          </div>
+          )}
 
         </div>
 

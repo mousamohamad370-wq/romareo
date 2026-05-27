@@ -7,10 +7,126 @@ import {
 } from 'react-icons/fi'
 
 import {
-  Link
+  Link,
+  useNavigate
 } from 'react-router-dom'
 
+import {
+  useState
+} from 'react'
+
+/* TOAST */
+
+import toast
+from 'react-hot-toast'
+
+/* AUTH */
+
+import {
+  useAuth
+} from '../../context/AuthContext'
+
+/* UI */
+
+import Button
+from '../../components/ui/Button'
+
+import Input
+from '../../components/ui/Input'
+
 function LoginContent() {
+
+  const navigate = useNavigate()
+
+  const {
+    login
+  } = useAuth()
+
+  const [loading, setLoading] =
+    useState(false)
+
+  /* FORM STATE */
+
+  const [formData, setFormData] =
+    useState({
+      email: '',
+      password: ''
+    })
+
+  /* HANDLE CHANGE */
+
+  const handleChange = (e) => {
+
+    setFormData({
+
+      ...formData,
+
+      [e.target.name]:
+        e.target.value
+
+    })
+
+  }
+
+  /* HANDLE LOGIN */
+
+  const handleLogin = (e) => {
+
+    e.preventDefault()
+
+    /* VALIDATION */
+
+    if (
+      !formData.email ||
+      !formData.password
+    ) {
+
+      toast.error(
+        'يرجى تعبئة جميع الحقول'
+      )
+
+      return
+    }
+
+    setLoading(true)
+
+    setTimeout(() => {
+
+      /* MOCK USER */
+
+      const userData = {
+
+        id: 'RM-102548',
+
+        name: 'محمد أحمد',
+
+        email: formData.email,
+
+        wallet: 120
+
+      }
+
+      /* LOGIN */
+
+      login(userData)
+
+      /* SUCCESS */
+
+      toast.success(
+        'تم تسجيل الدخول بنجاح'
+      )
+
+      setLoading(false)
+
+      setTimeout(() => {
+
+        navigate('/profile')
+
+      }, 400)
+
+    }, 1200)
+
+  }
 
   return (
 
@@ -81,62 +197,93 @@ function LoginContent() {
 
             {/* FORM */}
 
-            <form className="auth-form">
+            <form
+              className="auth-form"
+
+              onSubmit={handleLogin}
+            >
 
               {/* EMAIL */}
 
-              <div className="input-group">
+              <Input
+                label="البريد الإلكتروني"
 
-                <label>
-                  البريد الإلكتروني
-                </label>
+                type="email"
 
-                <div className="input-box">
+                name="email"
 
-                  <FiMail />
+                placeholder="example@email.com"
 
-                  <input
-                    type="email"
-                    placeholder="example@email.com"
-                  />
+                required={true}
 
-                </div>
+                value={formData.email}
 
-              </div>
+                onChange={handleChange}
+
+                icon={<FiMail />}
+              />
 
               {/* PASSWORD */}
 
-              <div className="input-group">
+              <Input
+                label="كلمة المرور"
 
-                <label>
-                  كلمة المرور
-                </label>
+                type="password"
 
-                <div className="input-box">
+                name="password"
 
-                  <FiLock />
+                placeholder="********"
 
-                  <input
-                    type="password"
-                    placeholder="********"
-                  />
+                required={true}
 
-                </div>
+                value={formData.password}
+
+                onChange={handleChange}
+
+                icon={<FiLock />}
+              />
+
+              {/* FORGOT */}
+
+              <div className="forgot-password">
+
+                <button
+                  type="button"
+                >
+
+                  نسيت كلمة المرور؟
+
+                </button>
 
               </div>
 
               {/* BUTTON */}
 
-              <button
+              <Button
                 type="submit"
+
+                variant="primary"
+
+                size="lg"
+
+                fullWidth={true}
+
+                disabled={loading}
+
                 className="auth-btn"
+
+                icon={
+                  !loading &&
+                  <FiArrowLeft />
+                }
               >
 
-                تسجيل الدخول
+                {loading
+                  ? 'جاري تسجيل الدخول...'
+                  : 'تسجيل الدخول'
+                }
 
-                <FiArrowLeft />
-
-              </button>
+              </Button>
 
             </form>
 

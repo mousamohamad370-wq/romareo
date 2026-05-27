@@ -5,27 +5,112 @@ import {
   FiUser,
   FiLogOut,
   FiMenu,
-  FiX
+  FiX,
+  FiGrid
 } from 'react-icons/fi'
 
 import {
-  NavLink
+  NavLink,
+  useNavigate
 } from 'react-router-dom'
 
 import {
-  useState
+  useState,
+  useEffect
 } from 'react'
 
+/* TOAST */
+
+import toast
+from 'react-hot-toast'
+
+/* AUTH */
+
+import {
+  useAuth
+} from '../../context/AuthContext'
+
 function DashboardSidebar() {
+
+  const navigate = useNavigate()
+
+  const {
+    user,
+    logout
+  } = useAuth()
 
   const [open, setOpen] =
     useState(false)
 
+  /* PREVENT BODY SCROLL */
+
+  useEffect(() => {
+
+    if (open) {
+
+      document.body.style.overflow =
+        'hidden'
+
+    } else {
+
+      document.body.style.overflow =
+        'auto'
+
+    }
+
+    return () => {
+
+      document.body.style.overflow =
+        'auto'
+
+    }
+
+  }, [open])
+
+  /* CLOSE ON RESIZE */
+
+  useEffect(() => {
+
+    const handleResize = () => {
+
+      if (window.innerWidth > 992) {
+
+        setOpen(false)
+
+      }
+
+    }
+
+    window.addEventListener(
+      'resize',
+      handleResize
+    )
+
+    return () => {
+
+      window.removeEventListener(
+        'resize',
+        handleResize
+      )
+
+    }
+
+  }, [])
+
+  /* LINKS */
+
   const links = [
+
     {
       title: 'الرئيسية',
       icon: <FiHome />,
       path: '/'
+    },
+
+    {
+      title: 'المتجر',
+      icon: <FiGrid />,
+      path: '/marketplace'
     },
 
     {
@@ -45,7 +130,36 @@ function DashboardSidebar() {
       icon: <FiUser />,
       path: '/profile'
     }
+
   ]
+
+  /* LOGOUT */
+
+  const handleLogout = () => {
+
+    /* CLOSE MENU */
+
+    setOpen(false)
+
+    /* LOGOUT */
+
+    logout()
+
+    /* TOAST */
+
+    toast.success(
+      'تم تسجيل الخروج بنجاح'
+    )
+
+    /* REDIRECT */
+
+    setTimeout(() => {
+
+      navigate('/login')
+
+    }, 400)
+
+  }
 
   return (
 
@@ -92,7 +206,21 @@ function DashboardSidebar() {
 
         <div className="sidebar-top">
 
-          <div className="sidebar-logo">
+          <div
+            className="sidebar-logo"
+
+            onClick={() => {
+
+              navigate('/')
+
+              setOpen(false)
+
+            }}
+
+            style={{
+              cursor: 'pointer'
+            }}
+          >
 
             <span>
               R
@@ -140,11 +268,47 @@ function DashboardSidebar() {
 
         </nav>
 
+        {/* USER CARD */}
+
+        <div className="sidebar-user-card">
+
+          <div className="user-avatar">
+
+            {user?.name
+              ?.charAt(0)
+              ?.toUpperCase() || 'U'
+            }
+
+          </div>
+
+          <div>
+
+            <h4>
+
+              {user?.name ||
+                'مستخدم'}
+
+            </h4>
+
+            <span>
+
+              ID:
+              {' '}
+              {user?.id || '---'}
+
+            </span>
+
+          </div>
+
+        </div>
+
         {/* BOTTOM */}
 
         <div className="sidebar-bottom">
 
-          <button>
+          <button
+            onClick={handleLogout}
+          >
 
             <FiLogOut />
 

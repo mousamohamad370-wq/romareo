@@ -8,6 +8,11 @@ import {
 
 import Layout from './components/layout/Layout'
 
+/* PROTECTED */
+
+import ProtectedRoute
+from './components/protected/ProtectedRoute'
+
 /* PAGES */
 
 import Home from './pages/Home'
@@ -30,6 +35,9 @@ from './pages/Orders'
 import Profile
 from './pages/Profile'
 
+import Marketplace
+from './pages/Marketplace'
+
 function App() {
 
   return (
@@ -45,6 +53,13 @@ function App() {
           <Route
             path="/"
             element={<Home />}
+          />
+
+          {/* MARKETPLACE */}
+
+          <Route
+            path="/marketplace"
+            element={<Marketplace />}
           />
 
           {/* SERVICE DETAILS */}
@@ -66,21 +81,42 @@ function App() {
             element={<Register />}
           />
 
-          {/* DASHBOARD */}
+          {/* PROTECTED ROUTES */}
 
           <Route
             path="/wallet"
-            element={<Wallet />}
+
+            element={
+              <ProtectedRoute>
+
+                <Wallet />
+
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/orders"
-            element={<Orders />}
+
+            element={
+              <ProtectedRoute>
+
+                <Orders />
+
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/profile"
-            element={<Profile />}
+
+            element={
+              <ProtectedRoute>
+
+                <Profile />
+
+              </ProtectedRoute>
+            }
           />
 
         </Routes>

@@ -10,7 +10,9 @@ import {
   FiX,
   FiSearch,
   FiUser,
-  FiGlobe
+  FiGlobe,
+  FiLogOut,
+  FiCreditCard
 } from 'react-icons/fi'
 
 import {
@@ -18,7 +20,27 @@ import {
   AnimatePresence
 } from 'framer-motion'
 
+import {
+  Link,
+  NavLink,
+  useNavigate
+} from 'react-router-dom'
+
+/* AUTH */
+
+import {
+  useAuth
+} from '../../context/AuthContext'
+
 function Navbar() {
+
+  const navigate = useNavigate()
+
+  const {
+    user,
+    isAuthenticated,
+    logout
+  } = useAuth()
 
   const [menuOpen, setMenuOpen] =
     useState(false)
@@ -79,25 +101,44 @@ function Navbar() {
   useEffect(() => {
 
     if (menuOpen) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow =
+        'hidden'
     } else {
-      document.body.style.overflow = 'auto'
+      document.body.style.overflow =
+        'auto'
     }
 
     return () => {
-      document.body.style.overflow = 'auto'
+      document.body.style.overflow =
+        'auto'
     }
 
   }, [menuOpen])
 
+  /* LOGOUT */
+
+  const handleLogout = () => {
+
+    logout()
+
+    navigate('/login')
+
+    setMenuOpen(false)
+
+  }
+
   /* LINKS */
 
   const navLinks = [
-    'الرئيسية',
-    'الخدمات',
-    'الألعاب',
-    'الاشتراكات',
-    'تواصل معنا'
+    {
+      title: 'الرئيسية',
+      path: '/'
+    },
+
+    {
+      title: 'المتجر',
+      path: '/marketplace'
+    }
   ]
 
   return (
@@ -113,8 +154,6 @@ function Navbar() {
         {/* LOGO */}
 
         <motion.div
-          className="logo"
-
           initial={{
             opacity: 0,
             y: -20
@@ -130,9 +169,16 @@ function Navbar() {
           }}
         >
 
-          <span>R</span>
+          <Link
+            to="/"
+            className="logo"
+          >
 
-          <h3>Romario</h3>
+            <span>R</span>
+
+            <h3>Romario</h3>
+
+          </Link>
 
         </motion.div>
 
@@ -142,8 +188,7 @@ function Navbar() {
 
           {navLinks.map((link, index) => (
 
-            <motion.a
-              href="#"
+            <motion.div
               key={index}
 
               initial={{
@@ -161,9 +206,15 @@ function Navbar() {
               }}
             >
 
-              {link}
+              <NavLink
+                to={link.path}
+              >
 
-            </motion.a>
+                {link.title}
+
+              </NavLink>
+
+            </motion.div>
 
           ))}
 
@@ -173,11 +224,21 @@ function Navbar() {
 
         <div className="navbar-actions">
 
-          <button className="icon-btn">
+          {/* SEARCH */}
+
+          <button
+            className="icon-btn"
+
+            onClick={() =>
+              navigate('/marketplace')
+            }
+          >
 
             <FiSearch />
 
           </button>
+
+          {/* LANGUAGE */}
 
           <button className="icon-btn">
 
@@ -185,13 +246,69 @@ function Navbar() {
 
           </button>
 
-          <button className="login-btn">
+          {/* AUTH */}
 
-            <FiUser />
+          {!isAuthenticated ? (
 
-            تسجيل الدخول
+            <button
+              className="login-btn"
 
-          </button>
+              onClick={() =>
+                navigate('/login')
+              }
+            >
+
+              <FiUser />
+
+              تسجيل الدخول
+
+            </button>
+
+          ) : (
+
+            <div className="navbar-user">
+
+              <button
+                className="wallet-btn"
+
+                onClick={() =>
+                  navigate('/wallet')
+                }
+              >
+
+                <FiCreditCard />
+
+                ${user?.wallet || 0}
+
+              </button>
+
+              <button
+                className="profile-btn"
+
+                onClick={() =>
+                  navigate('/profile')
+                }
+              >
+
+                <FiUser />
+
+                {user?.name?.split(' ')[0]}
+
+              </button>
+
+              <button
+                className="logout-btn"
+
+                onClick={handleLogout}
+              >
+
+                <FiLogOut />
+
+              </button>
+
+            </div>
+
+          )}
 
           {/* MOBILE BUTTON */}
 
@@ -245,9 +362,7 @@ function Navbar() {
 
             {navLinks.map((link, index) => (
 
-              <motion.a
-                href="#"
-
+              <motion.div
                 key={index}
 
                 initial={{
@@ -263,29 +378,87 @@ function Navbar() {
                 transition={{
                   delay: index * 0.05
                 }}
-
-                onClick={() =>
-                  setMenuOpen(false)
-                }
               >
 
-                {link}
+                <NavLink
+                  to={link.path}
 
-              </motion.a>
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+
+                  {link.title}
+
+                </NavLink>
+
+              </motion.div>
 
             ))}
 
-            <button
-              className="mobile-login-btn"
+            {/* MOBILE AUTH */}
 
-              onClick={() =>
-                setMenuOpen(false)
-              }
-            >
+            {!isAuthenticated ? (
 
-              تسجيل الدخول
+              <button
+                className="mobile-login-btn"
 
-            </button>
+                onClick={() => {
+
+                  setMenuOpen(false)
+
+                  navigate('/login')
+
+                }}
+              >
+
+                تسجيل الدخول
+
+              </button>
+
+            ) : (
+
+              <div className="mobile-user-menu">
+
+                <button
+                  onClick={() => {
+
+                    navigate('/profile')
+
+                    setMenuOpen(false)
+
+                  }}
+                >
+
+                  الملف الشخصي
+
+                </button>
+
+                <button
+                  onClick={() => {
+
+                    navigate('/wallet')
+
+                    setMenuOpen(false)
+
+                  }}
+                >
+
+                  المحفظة
+
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                >
+
+                  تسجيل الخروج
+
+                </button>
+
+              </div>
+
+            )}
 
           </motion.div>
 
