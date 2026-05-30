@@ -1,284 +1,182 @@
 import './Dashboard.scss'
 
 import {
-  FiUser,
-  FiMail,
-  FiPhone,
+  FiArrowUpRight,
   FiCreditCard,
-  FiCopy,
+  FiPackage,
+  FiTrendingUp,
+  FiPlusCircle,
+  FiClock,
   FiCheckCircle,
-  FiEdit,
-  FiMessageCircle
+  FiMessageCircle,
+  FiGrid
 } from 'react-icons/fi'
+
+import {
+  useNavigate
+} from 'react-router-dom'
+
+/* AUTH */
+
+import {
+  useAuth
+} from '../../context/AuthContext'
+
+/* WALLET */
+
+import {
+  useWallet
+} from '../../context/WalletContext'
 
 function ProfileContent() {
 
-  const user = {
-    name: 'محمد أحمد',
-    email: 'mohamed@email.com',
-    phone: '+961 70 000 000',
-    id: 'RM-102548',
-    balance: '$120',
-    verified: true
-  }
+  const navigate = useNavigate()
 
-  const activities = [
-    'تمت إضافة رصيد بقيمة $50',
-    'شراء خدمة ChatGPT Plus',
-    'تم تنفيذ طلب PUBG UC',
-    'تسجيل دخول جديد للحساب'
-  ]
+  const {
+    user
+  } = useAuth()
 
-  const copyId = () => {
-    navigator.clipboard.writeText(
-      user.id
-    )
-  }
+  const {
+    balance,
+    orders,
+    transactions
+  } = useWallet()
+
+  const latestOrders =
+    orders.slice(0, 3)
+
+  const latestTransactions =
+    transactions.slice(0, 3)
 
   return (
 
-    <section className="dashboard-page section">
+    <section className="dashboard-page">
 
-      <div className="container">
+      {/* HERO */}
 
-        {/* HEADER */}
+      <div className="dashboard-hero">
 
-        <div className="dashboard-header">
+        <div className="hero-content">
 
-          <div>
+          <span className="hero-badge">
 
-            <h1>
-              الملف الشخصي
-            </h1>
+            مرحبًا بعودتك 👋
 
-            <p>
-              إدارة معلومات الحساب والرصيد
-            </p>
+          </span>
+
+          <h1>
+
+            أهلاً،
+            {' '}
+            {user?.name}
+
+          </h1>
+
+          <p>
+
+            يمكنك الآن إدارة الطلبات،
+            الرصيد، والخدمات الرقمية
+            بسهولة كاملة من لوحة التحكم.
+
+          </p>
+
+          <div className="hero-actions">
+
+            <button
+              onClick={() =>
+                navigate('/marketplace')
+              }
+            >
+
+              <FiGrid />
+
+              تصفح الخدمات
+
+            </button>
+
+            <button
+              className="secondary-btn"
+
+              onClick={() =>
+                navigate('/wallet')
+              }
+            >
+
+              <FiPlusCircle />
+
+              إضافة رصيد
+
+            </button>
 
           </div>
 
-          <button className="dashboard-btn">
-
-            <FiEdit />
-
-            تعديل الحساب
-
-          </button>
-
         </div>
 
-        {/* PROFILE GRID */}
+        {/* STATS */}
 
-        <div className="profile-grid">
+        <div className="hero-stats">
 
-          {/* USER CARD */}
+          <div className="stat-card">
 
-          <div className="profile-card">
+            <div className="stat-icon">
 
-            {/* AVATAR */}
-
-            <div className="profile-avatar">
-
-              <FiUser />
+              <FiCreditCard />
 
             </div>
 
-            {/* NAME */}
-
-            <h2>
-              {user.name}
-            </h2>
-
-            {/* VERIFIED */}
-
-            <div className="profile-verified">
-
-              <FiCheckCircle />
-
-              حساب موثق
-
-            </div>
-
-            {/* USER ID */}
-
-            <div className="profile-id">
-
-              <span>
-                User ID
-              </span>
-
-              <strong>
-                {user.id}
-              </strong>
-
-              <button onClick={copyId}>
-
-                <FiCopy />
-
-              </button>
-
-            </div>
-
-            {/* BALANCE */}
-
-            <div className="profile-balance">
+            <div>
 
               <span>
                 الرصيد الحالي
               </span>
 
               <h3>
-                {user.balance}
+                ${balance}
               </h3>
 
             </div>
 
           </div>
 
-          {/* INFO */}
+          <div className="stat-card">
 
-          <div className="profile-info">
+            <div className="stat-icon">
 
-            {/* INFO BOX */}
-
-            <div className="dashboard-box">
-
-              <div className="box-top">
-
-                <h3>
-                  معلومات الحساب
-                </h3>
-
-              </div>
-
-              <div className="profile-info-list">
-
-                <div className="info-item">
-
-                  <div>
-
-                    <FiMail />
-
-                    <span>
-                      البريد الإلكتروني
-                    </span>
-
-                  </div>
-
-                  <strong>
-                    {user.email}
-                  </strong>
-
-                </div>
-
-                <div className="info-item">
-
-                  <div>
-
-                    <FiPhone />
-
-                    <span>
-                      رقم الهاتف
-                    </span>
-
-                  </div>
-
-                  <strong>
-                    {user.phone}
-                  </strong>
-
-                </div>
-
-                <div className="info-item">
-
-                  <div>
-
-                    <FiCreditCard />
-
-                    <span>
-                      حالة المحفظة
-                    </span>
-
-                  </div>
-
-                  <strong>
-                    مفعلة
-                  </strong>
-
-                </div>
-
-              </div>
+              <FiPackage />
 
             </div>
 
-            {/* ACTIVITY */}
+            <div>
 
-            <div className="dashboard-box">
+              <span>
+                إجمالي الطلبات
+              </span>
 
-              <div className="box-top">
-
-                <h3>
-                  آخر النشاطات
-                </h3>
-
-              </div>
-
-              <div className="activity-list">
-
-                {activities.map(
-                  (item, index) => (
-
-                    <div
-                      className="activity-item"
-                      key={index}
-                    >
-
-                      <FiCheckCircle />
-
-                      <span>
-                        {item}
-                      </span>
-
-                    </div>
-
-                  )
-                )}
-
-              </div>
+              <h3>
+                {orders.length}
+              </h3>
 
             </div>
 
-            {/* PAYMENT INFO */}
+          </div>
 
-            <div className="dashboard-box">
+          <div className="stat-card">
 
-              <div className="box-top">
+            <div className="stat-icon">
 
-                <h3>
-                  معلومات الدفع
-                </h3>
+              <FiTrendingUp />
 
-              </div>
+            </div>
 
-              <div className="payment-info-box">
+            <div>
 
-                <p>
-                  لإضافة رصيد إلى حسابك،
-                  قم بتحويل المبلغ عبر
-                  Wish Money ثم أرسل
-                  رقم العملية و User ID
-                  عبر واتساب للمراجعة.
-                </p>
+              <span>
+                العمليات الأخيرة
+              </span>
 
-                <button>
-
-                  <FiMessageCircle />
-
-                  التواصل عبر واتساب
-
-                </button>
-
-              </div>
+              <h3>
+                {transactions.length}
+              </h3>
 
             </div>
 
@@ -288,7 +186,210 @@ function ProfileContent() {
 
       </div>
 
+      {/* GRID */}
+
+      <div className="dashboard-home-grid">
+
+        {/* ORDERS */}
+
+        <div className="dashboard-box">
+
+          <div className="box-top">
+
+            <h3>
+              آخر الطلبات
+            </h3>
+
+            <button
+              onClick={() =>
+                navigate('/orders')
+              }
+            >
+
+              عرض الكل
+
+              <FiArrowUpRight />
+
+            </button>
+
+          </div>
+
+          <div className="dashboard-list">
+
+            {latestOrders.length === 0 ? (
+
+              <div className="dashboard-empty">
+
+                لا توجد طلبات حتى الآن
+
+              </div>
+
+            ) : (
+
+              latestOrders.map(order => (
+
+                <div
+                  className="dashboard-list-item"
+                  key={order.id}
+                >
+
+                  <div>
+
+                    <h4>
+                      {order.serviceTitle}
+                    </h4>
+
+                    <span>
+
+                      #{order.id}
+
+                    </span>
+
+                  </div>
+
+                  <strong>
+
+                    ${order.totalPrice}
+
+                  </strong>
+
+                </div>
+
+              ))
+
+            )}
+
+          </div>
+
+        </div>
+
+        {/* TRANSACTIONS */}
+
+        <div className="dashboard-box">
+
+          <div className="box-top">
+
+            <h3>
+              آخر العمليات
+            </h3>
+
+          </div>
+
+          <div className="dashboard-list">
+
+            {latestTransactions.length === 0 ? (
+
+              <div className="dashboard-empty">
+
+                لا توجد عمليات
+
+              </div>
+
+            ) : (
+
+              latestTransactions.map(item => (
+
+                <div
+                  className="dashboard-list-item"
+                  key={item.id}
+                >
+
+                  <div>
+
+                    <h4>
+                      {item.title}
+                    </h4>
+
+                    <span>
+
+                      {item.date}
+
+                    </span>
+
+                  </div>
+
+                  <strong>
+
+                    {item.amount}
+
+                  </strong>
+
+                </div>
+
+              ))
+
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* QUICK ACTIONS */}
+
+      <div className="dashboard-box quick-actions-box">
+
+        <div className="box-top">
+
+          <h3>
+            إجراءات سريعة
+          </h3>
+
+        </div>
+
+        <div className="quick-actions-grid">
+
+          <button
+            onClick={() =>
+              navigate('/wallet')
+            }
+          >
+
+            <FiPlusCircle />
+
+            إضافة رصيد
+
+          </button>
+
+          <button
+            onClick={() =>
+              navigate('/marketplace')
+            }
+          >
+
+            <FiGrid />
+
+            تصفح الخدمات
+
+          </button>
+
+          <button
+            onClick={() =>
+              navigate('/orders')
+            }
+          >
+
+            <FiClock />
+
+            الطلبات
+
+          </button>
+
+          <button>
+
+            <FiMessageCircle />
+
+            الدعم الفني
+
+          </button>
+
+        </div>
+
+      </div>
+
     </section>
+
   )
 }
 

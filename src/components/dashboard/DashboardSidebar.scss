@@ -1,273 +1,65 @@
 .dashboard-layout {
-  display: flex;
-
   min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(124,58,237,0.10),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(6,182,212,0.08),
+      transparent 25%
+    ),
+    var(--bg-primary);
 }
 
 /* CONTENT */
 
 .dashboard-content {
-  flex: 1;
-
-  min-width: 0;
-}
-
-/* MOBILE BUTTON */
-
-.dashboard-mobile-btn {
-  position: fixed;
-
-  top: 20px;
-  right: 20px;
-
-  width: 52px;
-  height: 52px;
-
-  border-radius: 16px;
-
-  background: rgba(17,24,39,0.92);
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter: blur(16px);
-
-  color: white;
-
-  z-index: 1200;
-
-  display: none;
-
-  align-items: center;
-  justify-content: center;
-
-  font-size: 24px;
-
-  cursor: pointer;
-
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-}
-
-/* OVERLAY */
-
-.dashboard-overlay {
-  position: fixed;
-
-  inset: 0;
-
-  background: rgba(0,0,0,0.5);
-
-  backdrop-filter: blur(4px);
-
-  z-index: 998;
-
-  opacity: 0;
-  visibility: hidden;
-
-  transition: var(--transition);
-}
-
-.dashboard-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* SIDEBAR */
-
-.dashboard-sidebar {
-  position: sticky;
-
-  top: 0;
-
-  width: 300px;
-
-  height: 100vh;
-
-  padding: 28px;
-
-  background: rgba(11,17,32,0.96);
-
-  border-left: 1px solid rgba(255,255,255,0.06);
-
-  backdrop-filter: blur(20px);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  z-index: 999;
-}
-
-/* TOP */
-
-.sidebar-top {
-  margin-bottom: 40px;
-}
-
-/* LOGO */
-
-.sidebar-logo {
-  display: flex;
-  align-items: center;
-
-  gap: 12px;
-}
-
-.sidebar-logo span {
-  width: 46px;
-  height: 46px;
-
-  border-radius: 16px;
-
-  background: linear-gradient(
-    135deg,
-    var(--primary),
-    var(--secondary)
-  );
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-
-  font-weight: 800;
-
-  font-size: 22px;
-
-  box-shadow: 0 12px 28px rgba(124,58,237,0.3);
-}
-
-.sidebar-logo h3 {
-  font-size: 28px;
-
-  font-weight: 800;
-}
-
-/* LINKS */
-
-.sidebar-links {
-  display: flex;
-  flex-direction: column;
-
-  gap: 14px;
-
-  flex: 1;
-}
-
-.sidebar-links a {
-  height: 58px;
-
-  padding-inline: 20px;
-
-  border-radius: 18px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 14px;
-
-  color: var(--text-secondary);
-
-  transition: var(--transition);
-
-  font-weight: 600;
-
-  background: transparent;
-}
-
-.sidebar-links a svg {
-  font-size: 20px;
-}
-
-.sidebar-links a:hover {
-  background: rgba(124,58,237,0.12);
-
-  color: white;
-
-  transform: translateX(-4px);
-}
-
-.sidebar-links a.active {
-  background: linear-gradient(
-    135deg,
-    rgba(124,58,237,0.22),
-    rgba(6,182,212,0.12)
-  );
-
-  color: white;
-
-  border: 1px solid rgba(124,58,237,0.25);
-
-  box-shadow: 0 15px 35px rgba(124,58,237,0.18);
-}
-
-/* BOTTOM */
-
-.sidebar-bottom {
-  margin-top: 40px;
-}
-
-.sidebar-bottom button {
   width: 100%;
 
-  height: 58px;
+  max-width: 1400px;
 
-  border-radius: 18px;
+  margin: 0 auto;
 
-  background: rgba(239,68,68,0.12);
-
-  border: 1px solid rgba(239,68,68,0.18);
-
-  color: #ef4444;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition: var(--transition);
+  padding: 0;
 }
 
-.sidebar-bottom button:hover {
-  background: rgba(239,68,68,0.18);
+/* MAIN */
 
-  transform: translateY(-3px);
+.dashboard-main {
+  width: 100%;
+
+  padding: 24px;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media (max-width: 1100px) {
+@media (max-width: 992px) {
 
-  .dashboard-mobile-btn {
-    display: flex;
+  .dashboard-main {
+    padding: 18px;
   }
 
-  .dashboard-sidebar {
-    position: fixed;
+}
 
-    top: 0;
-    right: -100%;
+@media (max-width: 768px) {
 
-    transition: 0.35s ease;
-
-    box-shadow: -20px 0 50px rgba(0,0,0,0.35);
-  }
-
-  .dashboard-sidebar.active {
-    right: 0;
+  .dashboard-main {
+    padding: 14px;
   }
 
 }
 
 @media (max-width: 500px) {
 
-  .dashboard-sidebar {
-    width: 100%;
+  .dashboard-main {
+    padding: 12px;
   }
 
 }

@@ -84,195 +84,191 @@ function WalletContent() {
         setOpen={setOpenModal}
       />
 
-      <section className="dashboard-page section">
+      <section className="dashboard-page">
 
-        <div className="container">
+        {/* HEADER */}
 
-          {/* HEADER */}
+        <div className="dashboard-header">
 
-          <div className="dashboard-header">
+          <div>
+
+            <h1>
+              المحفظة
+            </h1>
+
+            <p>
+              إدارة الرصيد والعمليات المالية
+            </p>
+
+          </div>
+
+          <button
+            className="dashboard-btn"
+
+            onClick={() =>
+              setOpenModal(true)
+            }
+          >
+
+            <FiPlusCircle />
+
+            إضافة رصيد
+
+          </button>
+
+        </div>
+
+        {/* BALANCE CARD */}
+
+        <div className="balance-card">
+
+          <div className="balance-top">
 
             <div>
 
-              <h1>
-                المحفظة
-              </h1>
+              <span>
+                الرصيد الحالي
+              </span>
+
+              <h2>
+
+                ${balance.toFixed(2)}
+
+              </h2>
+
+            </div>
+
+            <div className="balance-icon">
+
+              <FiCreditCard />
+
+            </div>
+
+          </div>
+
+          <div className="balance-stats">
+
+            <div>
+
+              <small>
+                إجمالي الإيداع
+              </small>
+
+              <strong>
+
+                ${totalDeposits}
+
+              </strong>
+
+            </div>
+
+            <div>
+
+              <small>
+                إجمالي الطلبات
+              </small>
+
+              <strong>
+
+                ${totalPurchases}
+
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* TRANSACTIONS */}
+
+        <div className="dashboard-box">
+
+          <div className="box-top">
+
+            <h3>
+              آخر العمليات
+            </h3>
+
+          </div>
+
+          {/* EMPTY */}
+
+          {transactions.length === 0 ? (
+
+            <div className="empty-transactions">
 
               <p>
-                إدارة الرصيد والعمليات المالية
+                لا توجد عمليات حتى الآن
               </p>
 
             </div>
 
-            <button
-              className="dashboard-btn"
+          ) : (
 
-              onClick={() =>
-                setOpenModal(true)
-              }
-            >
+            <div className="transactions-list">
 
-              <FiPlusCircle />
+              {transactions.map(item => (
 
-              إضافة رصيد
+                <div
+                  className="transaction-item"
+                  key={item.id}
+                >
 
-            </button>
-
-          </div>
-
-          {/* BALANCE CARD */}
-
-          <div className="balance-card">
-
-            <div className="balance-top">
-
-              <div>
-
-                <span>
-                  الرصيد الحالي
-                </span>
-
-                <h2>
-
-                  ${balance.toFixed(2)}
-
-                </h2>
-
-              </div>
-
-              <div className="balance-icon">
-
-                <FiCreditCard />
-
-              </div>
-
-            </div>
-
-            <div className="balance-stats">
-
-              <div>
-
-                <small>
-                  إجمالي الإيداع
-                </small>
-
-                <strong>
-
-                  ${totalDeposits}
-
-                </strong>
-
-              </div>
-
-              <div>
-
-                <small>
-                  إجمالي الطلبات
-                </small>
-
-                <strong>
-
-                  ${totalPurchases}
-
-                </strong>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* TRANSACTIONS */}
-
-          <div className="dashboard-box">
-
-            <div className="box-top">
-
-              <h3>
-                آخر العمليات
-              </h3>
-
-            </div>
-
-            {/* EMPTY */}
-
-            {transactions.length === 0 ? (
-
-              <div className="empty-transactions">
-
-                <p>
-                  لا توجد عمليات حتى الآن
-                </p>
-
-              </div>
-
-            ) : (
-
-              <div className="transactions-list">
-
-                {transactions.map(item => (
+                  {/* ICON */}
 
                   <div
-                    className="transaction-item"
-                    key={item.id}
+                    className={`transaction-icon ${
+                      item.type
+                    }`}
                   >
 
-                    {/* ICON */}
-
-                    <div
-                      className={`transaction-icon ${
-                        item.type
-                      }`}
-                    >
-
-                      {item.type === 'deposit'
-                        ? <FiArrowDownLeft />
-                        : <FiArrowUpRight />
-                      }
-
-                    </div>
-
-                    {/* INFO */}
-
-                    <div className="transaction-info">
-
-                      <h4>
-                        {item.title}
-                      </h4>
-
-                      <span>
-                        {item.date}
-                      </span>
-
-                    </div>
-
-                    {/* STATUS */}
-
-                    <div className="transaction-status">
-
-                      <strong>
-                        {item.amount}
-                      </strong>
-
-                      <small>
-
-                        <FiCheckCircle />
-
-                        {item.status}
-
-                      </small>
-
-                    </div>
+                    {item.type === 'deposit'
+                      ? <FiArrowDownLeft />
+                      : <FiArrowUpRight />
+                    }
 
                   </div>
 
-                ))}
+                  {/* INFO */}
 
-              </div>
+                  <div className="transaction-info">
 
-            )}
+                    <h4>
+                      {item.title}
+                    </h4>
 
-          </div>
+                    <span>
+                      {item.date}
+                    </span>
+
+                  </div>
+
+                  {/* STATUS */}
+
+                  <div className="transaction-status">
+
+                    <strong>
+                      {item.amount}
+                    </strong>
+
+                    <small>
+
+                      <FiCheckCircle />
+
+                      {item.status}
+
+                    </small>
+
+                  </div>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          )}
 
         </div>
 

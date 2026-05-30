@@ -41,7 +41,7 @@ function RegisterContent() {
   const navigate = useNavigate()
 
   const {
-    login
+    register
   } = useAuth()
 
   const [loading, setLoading] =
@@ -74,7 +74,7 @@ function RegisterContent() {
 
   /* HANDLE REGISTER */
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
 
     e.preventDefault()
 
@@ -94,33 +94,29 @@ function RegisterContent() {
       return
     }
 
-    setLoading(true)
+    /* PASSWORD LENGTH */
 
-    setTimeout(() => {
+    if (
+      formData.password.length < 6
+    ) {
 
-      /* MOCK USER */
+      toast.error(
+        'كلمة المرور يجب أن تكون 6 أحرف على الأقل'
+      )
 
-      const userData = {
+      return
+    }
 
-        id:
-          'RM-' +
-          Math.floor(
-            100000 +
-            Math.random() * 900000
-          ),
+    try {
 
-        name: formData.name,
+      setLoading(true)
 
-        email: formData.email,
+      /* FIREBASE REGISTER */
 
-        phone: formData.phone,
-
-        wallet: 0
-      }
-
-      /* LOGIN */
-
-      login(userData)
+      await register(
+        formData.email,
+        formData.password
+      )
 
       /* SUCCESS */
 
@@ -128,15 +124,60 @@ function RegisterContent() {
         'تم إنشاء الحساب بنجاح'
       )
 
-      setLoading(false)
+      /* REDIRECT */
 
       setTimeout(() => {
 
         navigate('/profile')
 
-      }, 400)
+      }, 500)
 
-    }, 1500)
+    } catch (error) {
+
+      console.log(error)
+
+      /* FIREBASE ERRORS */
+
+      if (
+        error.code ===
+        'auth/email-already-in-use'
+      ) {
+
+        toast.error(
+          'البريد الإلكتروني مستخدم مسبقًا'
+        )
+
+      } else if (
+        error.code ===
+        'auth/invalid-email'
+      ) {
+
+        toast.error(
+          'البريد الإلكتروني غير صالح'
+        )
+
+      } else if (
+        error.code ===
+        'auth/weak-password'
+      ) {
+
+        toast.error(
+          'كلمة المرور ضعيفة جدًا'
+        )
+
+      } else {
+
+        toast.error(
+          'حدث خطأ أثناء إنشاء الحساب'
+        )
+
+      }
+
+    } finally {
+
+      setLoading(false)
+
+    }
 
   }
 
@@ -211,7 +252,6 @@ function RegisterContent() {
 
             <form
               className="auth-form"
-
               onSubmit={handleRegister}
             >
 
@@ -219,19 +259,12 @@ function RegisterContent() {
 
               <Input
                 label="الاسم الكامل"
-
                 type="text"
-
                 name="name"
-
                 placeholder="الاسم الكامل"
-
                 required={true}
-
                 value={formData.name}
-
                 onChange={handleChange}
-
                 icon={<FiUser />}
               />
 
@@ -239,19 +272,12 @@ function RegisterContent() {
 
               <Input
                 label="البريد الإلكتروني"
-
                 type="email"
-
                 name="email"
-
                 placeholder="example@email.com"
-
                 required={true}
-
                 value={formData.email}
-
                 onChange={handleChange}
-
                 icon={<FiMail />}
               />
 
@@ -259,19 +285,12 @@ function RegisterContent() {
 
               <Input
                 label="رقم الهاتف"
-
                 type="text"
-
                 name="phone"
-
                 placeholder="+961 XX XXX XXX"
-
                 required={true}
-
                 value={formData.phone}
-
                 onChange={handleChange}
-
                 icon={<FiPhone />}
               />
 
@@ -279,19 +298,12 @@ function RegisterContent() {
 
               <Input
                 label="كلمة المرور"
-
                 type="password"
-
                 name="password"
-
                 placeholder="********"
-
                 required={true}
-
                 value={formData.password}
-
                 onChange={handleChange}
-
                 icon={<FiLock />}
               />
 
@@ -299,17 +311,11 @@ function RegisterContent() {
 
               <Button
                 type="submit"
-
                 variant="primary"
-
                 size="lg"
-
                 fullWidth={true}
-
                 disabled={loading}
-
                 className="auth-btn"
-
                 icon={
                   !loading &&
                   <FiArrowLeft />

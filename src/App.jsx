@@ -8,6 +8,11 @@ import {
 
 import Layout from './components/layout/Layout'
 
+/* SHARED */
+
+import ScrollToTop
+from './components/shared/ScrollToTop'
+
 /* PROTECTED */
 
 import ProtectedRoute
@@ -17,8 +22,14 @@ from './components/protected/ProtectedRoute'
 
 import Home from './pages/Home'
 
+import Marketplace
+from './pages/Marketplace'
+
 import ServiceDetails
 from './pages/ServiceDetails'
+
+import CategoryPage
+from './pages/CategoryPage'
 
 import Login
 from './pages/Login'
@@ -35,14 +46,13 @@ from './pages/Orders'
 import Profile
 from './pages/Profile'
 
-import Marketplace
-from './pages/Marketplace'
-
 function App() {
 
   return (
 
     <BrowserRouter>
+
+      <ScrollToTop />
 
       <Layout>
 
@@ -60,6 +70,13 @@ function App() {
           <Route
             path="/marketplace"
             element={<Marketplace />}
+          />
+
+          {/* CATEGORY PAGE */}
+
+          <Route
+            path="/category/:slug"
+            element={<CategoryPage />}
           />
 
           {/* SERVICE DETAILS */}
@@ -81,40 +98,31 @@ function App() {
             element={<Register />}
           />
 
-          {/* PROTECTED ROUTES */}
+          {/* PROTECTED */}
 
           <Route
             path="/wallet"
-
             element={
               <ProtectedRoute>
-
                 <Wallet />
-
               </ProtectedRoute>
             }
           />
 
           <Route
             path="/orders"
-
             element={
               <ProtectedRoute>
-
                 <Orders />
-
               </ProtectedRoute>
             }
           />
 
           <Route
             path="/profile"
-
             element={
               <ProtectedRoute>
-
                 <Profile />
-
               </ProtectedRoute>
             }
           />

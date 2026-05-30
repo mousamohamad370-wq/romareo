@@ -4,9 +4,7 @@ import {
   FiStar,
   FiShield,
   FiZap,
-  FiCheckCircle,
-  FiMinus,
-  FiPlus
+  FiCheckCircle
 } from 'react-icons/fi'
 
 import {
@@ -18,25 +16,22 @@ import {
   Navigate
 } from 'react-router-dom'
 
-import CheckoutDrawer
-from '../../components/checkout/CheckoutDrawer'
+import CheckoutDrawer from '../../components/checkout/CheckoutDrawer'
 
-/* DATA */
+import {
+  useAuth
+} from '../../context/AuthContext'
 
-import services
-from '../../data/services'
+import services from '../../data/services'
 
 function ServiceDetailsContent() {
 
   const { id } = useParams()
 
-  const [quantity, setQuantity] =
-    useState(1)
+  const { user } = useAuth()
 
   const [openCheckout, setOpenCheckout] =
     useState(false)
-
-  /* GET SERVICE */
 
   const service =
     services.find(
@@ -44,32 +39,37 @@ function ServiceDetailsContent() {
         item.id === Number(id)
     )
 
-  /* NOT FOUND */
-
   if (!service) {
-
-    return (
-      <Navigate to="/" />
-    )
-
+    return <Navigate to="/" />
   }
 
-  /* TOTAL PRICE */
+  const packages =
+    service.packages || [
+      {
+        id: 1,
+        name: service.title,
+        price: service.price
+      }
+    ]
+
+  const [selectedPackage, setSelectedPackage] =
+    useState(packages[0])
 
   const totalPrice =
-    quantity * service.price
+    selectedPackage?.price || 0
+
+  const canPurchase =
+    user &&
+    (user.balance || 0) > 0
 
   return (
-
     <>
-
-      {/* CHECKOUT DRAWER */}
 
       <CheckoutDrawer
         open={openCheckout}
         setOpen={setOpenCheckout}
         service={service}
-        quantity={quantity}
+        quantity={1}
         totalPrice={totalPrice}
       />
 
@@ -83,8 +83,6 @@ function ServiceDetailsContent() {
 
             <div className="details-content">
 
-              {/* IMAGE */}
-
               <div className="details-image">
 
                 <img
@@ -93,8 +91,6 @@ function ServiceDetailsContent() {
                 />
 
               </div>
-
-              {/* INFO */}
 
               <div className="details-info">
 
@@ -105,10 +101,10 @@ function ServiceDetailsContent() {
                 </div>
 
                 <h1>
-                  {service.title}
-                </h1>
 
-                {/* RATING */}
+                  {service.title}
+
+                </h1>
 
                 <div className="details-rating">
 
@@ -124,15 +120,11 @@ function ServiceDetailsContent() {
 
                 </div>
 
-                {/* DESCRIPTION */}
-
                 <p className="details-description">
 
                   {service.description}
 
                 </p>
-
-                {/* FEATURES */}
 
                 <div className="details-features">
 
@@ -140,14 +132,16 @@ function ServiceDetailsContent() {
                     (feature, index) => (
 
                       <div
-                        className="feature-box"
                         key={index}
+                        className="feature-box"
                       >
 
                         <FiCheckCircle />
 
                         <span>
+
                           {feature}
+
                         </span>
 
                       </div>
@@ -165,72 +159,85 @@ function ServiceDetailsContent() {
 
             <div className="purchase-card">
 
-              {/* TOP */}
-
               <div className="purchase-top">
 
                 <h3>
-                  ابدأ الطلب الآن
+
+                  اختر الباقة
+
                 </h3>
 
                 <div className="purchase-price">
 
-                  ${service.price}
+                  ${totalPrice}
 
                 </div>
 
               </div>
 
-              {/* QUANTITY */}
+              {service.category === 'الألعاب' && (
 
-              <div className="quantity-box">
+                <div className="form-group">
 
-                <span>
-                  الكمية
-                </span>
+                  <label>
 
-                <div className="quantity-controls">
+                    PUBG Player ID
 
-                  <button
-                    onClick={() =>
-                      setQuantity(
-                        quantity > 1
-                          ? quantity - 1
-                          : 1
-                      )
-                    }
-                  >
+                  </label>
 
-                    <FiMinus />
-
-                  </button>
-
-                  <strong>
-                    {quantity}
-                  </strong>
-
-                  <button
-                    onClick={() =>
-                      setQuantity(
-                        quantity + 1
-                      )
-                    }
-                  >
-
-                    <FiPlus />
-
-                  </button>
+                  <input
+                    type="text"
+                    placeholder="أدخل ID الحساب"
+                  />
 
                 </div>
 
-              </div>
+              )}
 
-              {/* TOTAL */}
+              <div className="packages-grid">
+
+                {packages.map(pkg => (
+
+                  <button
+                    key={pkg.id}
+
+                    type="button"
+
+                    className={`package-card ${
+                      selectedPackage?.id === pkg.id
+                        ? 'active'
+                        : ''
+                    }`}
+
+                    onClick={() =>
+                      setSelectedPackage(pkg)
+                    }
+                  >
+
+                    <strong>
+
+                      {pkg.name}
+
+                    </strong>
+
+                    <span>
+
+                      ${pkg.price}
+
+                    </span>
+
+                  </button>
+
+                ))}
+
+              </div>
 
               <div className="total-price">
 
                 <span>
-                  السعر الإجمالي
+
+                  السعر النهائي
+
                 </span>
 
                 <strong>
@@ -241,21 +248,26 @@ function ServiceDetailsContent() {
 
               </div>
 
-              {/* BUTTON */}
-
               <button
                 className="buy-btn"
 
-                onClick={() =>
+                disabled={!canPurchase}
+
+                onClick={() => {
+
+                  if (!canPurchase)
+                    return
+
                   setOpenCheckout(true)
-                }
+
+                }}
               >
 
-                اطلب الآن
+                {canPurchase
+                  ? 'متابعة الطلب'
+                  : 'سجل الدخول وأضف رصيد'}
 
               </button>
-
-              {/* FEATURES */}
 
               <div className="purchase-features">
 
@@ -264,7 +276,9 @@ function ServiceDetailsContent() {
                   <FiShield />
 
                   <span>
+
                     دفع آمن
+
                   </span>
 
                 </div>
@@ -274,7 +288,9 @@ function ServiceDetailsContent() {
                   <FiZap />
 
                   <span>
-                    تنفيذ سريع
+
+                    تنفيذ فوري
+
                   </span>
 
                 </div>
@@ -290,7 +306,6 @@ function ServiceDetailsContent() {
       </section>
 
     </>
-
   )
 }
 

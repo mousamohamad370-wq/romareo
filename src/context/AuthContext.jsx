@@ -5,6 +5,19 @@ import {
   useEffect
 } from 'react'
 
+/* FIREBASE AUTH */
+
+import {
+  auth
+} from '../firebase/firebase'
+
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from 'firebase/auth'
+
 /* CONTEXT */
 
 const AuthContext =
@@ -16,7 +29,7 @@ export function AuthProvider({
   children
 }) {
 
-  /* USER STATE */
+  /* STATES */
 
   const [user, setUser] =
     useState(null)
@@ -24,62 +37,87 @@ export function AuthProvider({
   const [loading, setLoading] =
     useState(true)
 
-  /* LOAD USER */
+  /* AUTH LISTENER */
 
   useEffect(() => {
 
-    const storedUser =
-      localStorage.getItem(
-        'romario-user'
+    const unsubscribe =
+      onAuthStateChanged(
+        auth,
+        (currentUser) => {
+
+          if (currentUser) {
+
+            setUser({
+
+              uid:
+                currentUser.uid,
+
+              email:
+                currentUser.email,
+
+              name:
+                currentUser.displayName || '',
+
+              phone:
+                currentUser.phoneNumber || ''
+            })
+
+          } else {
+
+            setUser(null)
+
+          }
+
+          setLoading(false)
+
+        }
       )
 
-    if (storedUser) {
-
-      setUser(
-        JSON.parse(storedUser)
-      )
-
-    }
-
-    setLoading(false)
+    return () =>
+      unsubscribe()
 
   }, [])
 
   /* LOGIN */
 
-  const login = (userData) => {
+  const login = async (
+    email,
+    password
+  ) => {
 
-    setUser(userData)
+    const response =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-    localStorage.setItem(
-      'romario-user',
-      JSON.stringify(userData)
-    )
-
+    return response.user
   }
 
   /* REGISTER */
 
-  const register = (userData) => {
+  const register = async (
+    email,
+    password
+  ) => {
 
-    setUser(userData)
+    const response =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-    localStorage.setItem(
-      'romario-user',
-      JSON.stringify(userData)
-    )
-
+    return response.user
   }
 
   /* LOGOUT */
 
-  const logout = () => {
+  const logout = async () => {
 
-    setUser(null)
-
-    localStorage.removeItem(
-      'romario-user'
-    )
+    await signOut(auth)
 
   }
 

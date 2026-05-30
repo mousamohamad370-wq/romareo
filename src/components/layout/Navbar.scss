@@ -5,11 +5,11 @@
 
   width: 100%;
 
-  padding: 18px 0;
+  padding: 12px 0;
 
-  background: rgba(11, 17, 32, 0.8);
+  background: rgba(11, 17, 32, 0.82);
 
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
 
   border-bottom: 1px solid var(--border-color);
 
@@ -17,11 +17,11 @@
 }
 
 .navbar.scrolled {
-  padding: 12px 0;
+  padding: 8px 0;
 
-  background: rgba(11, 17, 32, 0.95);
+  background: rgba(11, 17, 32, 0.96);
 
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
 }
 
 .navbar-container {
@@ -29,7 +29,7 @@
   align-items: center;
   justify-content: space-between;
 
-  gap: 20px;
+  gap: 24px;
 }
 
 /* LOGO */
@@ -40,13 +40,15 @@
   gap: 10px;
 
   cursor: pointer;
+
+  flex-shrink: 0;
 }
 
 .logo span {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
   display: flex;
   align-items: center;
@@ -59,14 +61,18 @@
   );
 
   font-weight: 800;
-  font-size: 22px;
+  font-size: 18px;
 
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.35);
+  color: white;
+
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
 }
 
 .logo h3 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
+
+  color: white;
 }
 
 /* NAV LINKS */
@@ -74,7 +80,8 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 34px;
+
+  gap: 26px;
 }
 
 .nav-links a {
@@ -82,12 +89,16 @@
 
   color: var(--text-secondary);
 
-  transition: var(--transition);
+  font-weight: 600;
 
-  font-weight: 500;
+  transition: 0.25s ease;
 }
 
 .nav-links a:hover {
+  color: white;
+}
+
+.nav-links a.active {
   color: white;
 }
 
@@ -97,10 +108,13 @@
   position: absolute;
 
   right: 0;
-  bottom: -8px;
+  bottom: -6px;
 
   width: 0;
+
   height: 2px;
+
+  border-radius: 100px;
 
   background: linear-gradient(
     90deg,
@@ -108,12 +122,11 @@
     var(--secondary)
   );
 
-  border-radius: 100px;
-
-  transition: var(--transition);
+  transition: 0.25s ease;
 }
 
-.nav-links a:hover::after {
+.nav-links a:hover::after,
+.nav-links a.active::after {
   width: 100%;
 }
 
@@ -122,56 +135,57 @@
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+
+  gap: 10px;
+
+  flex-shrink: 0;
 }
 
 /* ICON BUTTON */
 
 .icon-btn {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
   background: var(--bg-card);
 
-  border: 1px solid transparent;
+  border: 1px solid rgba(255,255,255,0.05);
 
   color: white;
 
   cursor: pointer;
 
-  font-size: 18px;
-
-  transition: var(--transition);
+  font-size: 17px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: 0.25s ease;
 }
 
 .icon-btn:hover {
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(124, 58, 237, 0.12);
 
-  border-color: rgba(124, 58, 237, 0.4);
+  border-color: rgba(124, 58, 237, 0.3);
 
-  transform: translateY(-3px);
-
-  color: white;
+  transform: translateY(-2px);
 }
 
-/* LOGIN BUTTON */
+/* LOGIN */
 
 .login-btn {
-  height: 46px;
+  height: 42px;
 
-  padding: 0 24px;
+  padding: 0 18px;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 
   background: linear-gradient(
     135deg,
@@ -185,15 +199,54 @@
 
   font-weight: 700;
 
-  transition: var(--transition);
+  transition: 0.25s ease;
 
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 8px 18px rgba(124,58,237,0.25);
 }
 
 .login-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+}
 
-  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.45);
+/* USER */
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.wallet-btn,
+.profile-btn,
+.logout-btn {
+  height: 42px;
+
+  padding: 0 14px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: rgba(255,255,255,0.04);
+
+  border: 1px solid rgba(255,255,255,0.05);
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.wallet-btn:hover,
+.profile-btn:hover,
+.logout-btn:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(124,58,237,0.25);
 }
 
 /* MENU BUTTON */
@@ -201,10 +254,10 @@
 .menu-btn {
   display: none;
 
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
   background: var(--bg-card);
 
@@ -212,15 +265,13 @@
 
   cursor: pointer;
 
-  font-size: 22px;
+  font-size: 20px;
 
-  transition: var(--transition);
+  transition: 0.25s ease;
 }
 
 .menu-btn:hover {
-  background: rgba(124, 58, 237, 0.15);
-
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 /* MOBILE MENU */
@@ -229,49 +280,13 @@
   display: none;
 }
 
-.mobile-menu a {
-  color: white;
-
-  font-size: 17px;
-
-  transition: var(--transition);
-}
-
-.mobile-menu a:hover {
-  color: var(--secondary);
-}
-
-.mobile-login-btn {
-  margin-top: 10px;
-
-  height: 52px;
-
-  border-radius: 14px;
-
-  background: linear-gradient(
-    135deg,
-    var(--primary),
-    var(--primary-light)
-  );
-
-  color: white;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition: var(--transition);
-}
-
-.mobile-login-btn:hover {
-  transform: translateY(-2px);
-}
-
-/* RESPONSIVE */
-
 @media (max-width: 992px) {
 
   .nav-links {
+    display: none;
+  }
+
+  .navbar-user {
     display: none;
   }
 
@@ -290,7 +305,7 @@
 
     flex-direction: column;
 
-    gap: 22px;
+    gap: 18px;
 
     position: absolute;
 
@@ -299,35 +314,62 @@
 
     width: 100%;
 
-    padding: 30px;
+    padding: 24px;
 
-    background: rgba(17, 24, 39, 0.96);
-
-    backdrop-filter: blur(20px);
+    background: rgba(17,24,39,0.98);
 
     border-bottom: 1px solid var(--border-color);
 
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+  }
+
+  .mobile-menu a {
+    color: white;
+    font-size: 16px;
+  }
+
+  .mobile-login-btn {
+    height: 48px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-light)
+    );
+
+    color: white;
+
+    font-weight: 700;
   }
 }
 
 @media (max-width: 768px) {
 
-  .navbar {
-    padding: 16px 0;
-  }
-
   .logo h3 {
-    font-size: 22px;
+    font-size: 18px;
   }
 
-  .icon-btn,
-  .menu-btn {
-    width: 42px;
-    height: 42px;
+  .logo span {
+    width: 34px;
+    height: 34px;
+
+    font-size: 16px;
+  }
+
+  .navbar-container {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .navbar {
+    padding: 10px 0;
   }
 
   .mobile-menu {
-    padding: 24px;
+    padding: 18px;
   }
 }

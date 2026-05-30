@@ -135,29 +135,41 @@ function DashboardSidebar() {
 
   /* LOGOUT */
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
 
-    /* CLOSE MENU */
+    try {
 
-    setOpen(false)
+      /* CLOSE MENU */
 
-    /* LOGOUT */
+      setOpen(false)
 
-    logout()
+      /* FIREBASE LOGOUT */
 
-    /* TOAST */
+      await logout()
 
-    toast.success(
-      'تم تسجيل الخروج بنجاح'
-    )
+      /* TOAST */
 
-    /* REDIRECT */
+      toast.success(
+        'تم تسجيل الخروج بنجاح'
+      )
 
-    setTimeout(() => {
+      /* REDIRECT */
 
-      navigate('/login')
+      setTimeout(() => {
 
-    }, 400)
+        navigate('/login')
+
+      }, 400)
+
+    } catch (error) {
+
+      console.log(error)
+
+      toast.error(
+        'حدث خطأ أثناء تسجيل الخروج'
+      )
+
+    }
 
   }
 
@@ -274,7 +286,7 @@ function DashboardSidebar() {
 
           <div className="user-avatar">
 
-            {user?.name
+            {user?.email
               ?.charAt(0)
               ?.toUpperCase() || 'U'
             }
@@ -285,7 +297,8 @@ function DashboardSidebar() {
 
             <h4>
 
-              {user?.name ||
+              {user?.email
+                ?.split('@')[0] ||
                 'مستخدم'}
 
             </h4>
@@ -294,7 +307,8 @@ function DashboardSidebar() {
 
               ID:
               {' '}
-              {user?.id || '---'}
+              {user?.uid
+                ?.slice(0, 8) || '---'}
 
             </span>
 

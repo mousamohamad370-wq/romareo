@@ -3,13 +3,13 @@ const services = [
   {
     id: 1,
 
-    slug: 'pubg-uc',
+    slug: 'pubg-mobile',
 
-    title: 'شحن PUBG UC',
+    categorySlug: 'games',
+
+    title: 'PUBG Mobile',
 
     category: 'الألعاب',
-
-    price: 5,
 
     rating: 4.9,
 
@@ -17,17 +17,49 @@ const services = [
 
     popular: true,
 
-    image:
-      'https://images.unsplash.com/photo-1542751110-97427bbecf20',
+    image: 'https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=800&auto=format&fit=crop',
 
     description:
-      'خدمة شحن PUBG UC بشكل فوري وآمن لجميع الباقات مع دعم سريع وتنفيذ مضمون.',
+      'شحن UC لجميع الباقات بشكل فوري وآمن.',
 
     features: [
       'تنفيذ سريع وفوري',
       'دعم متواصل 24/7',
       'شحن آمن ومضمون',
-      'أفضل الأسعار المتوفرة'
+      'أفضل الأسعار'
+    ],
+
+    packages: [
+      {
+        id: 1,
+        name: '60 UC',
+        price: 0.99
+      },
+      {
+        id: 2,
+        name: '325 UC',
+        price: 4.99
+      },
+      {
+        id: 3,
+        name: '660 UC',
+        price: 9.99
+      },
+      {
+        id: 4,
+        name: '1800 UC',
+        price: 24.99
+      },
+      {
+        id: 5,
+        name: '3850 UC',
+        price: 49.99
+      },
+      {
+        id: 6,
+        name: '8100 UC',
+        price: 99.99
+      }
     ]
   },
 
@@ -35,6 +67,8 @@ const services = [
     id: 2,
 
     slug: 'chatgpt-plus',
+
+    categorySlug: 'subscriptions',
 
     title: 'ChatGPT Plus',
 
@@ -49,7 +83,7 @@ const services = [
     popular: true,
 
     image:
-      'https://images.unsplash.com/photo-1677442136019-21780ecad995',
+      'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop',
 
     description:
       'اشتراك ChatGPT Plus الأصلي مع تفعيل سريع ودعم كامل.',
@@ -67,6 +101,8 @@ const services = [
 
     slug: 'netflix-premium',
 
+    categorySlug: 'subscriptions',
+
     title: 'Netflix Premium',
 
     category: 'اشتراكات',
@@ -80,7 +116,7 @@ const services = [
     popular: false,
 
     image:
-      'https://images.unsplash.com/photo-1524985069026-dd778a71c7b4',
+      'https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?q=80&w=800&auto=format&fit=crop',
 
     description:
       'اشتراك Netflix Premium بجودة عالية وحسابات مضمونة.',
@@ -98,6 +134,8 @@ const services = [
 
     slug: 'tiktok-followers',
 
+    categorySlug: 'social',
+
     title: 'TikTok Followers',
 
     category: 'سوشال',
@@ -111,7 +149,7 @@ const services = [
     popular: true,
 
     image:
-      'https://images.unsplash.com/photo-1611162618071-b39a2ec055fb',
+      'https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?q=80&w=800&auto=format&fit=crop',
 
     description:
       'زيادة متابعين تيك توك بسرعة وأمان لتحسين حسابك.',
@@ -129,6 +167,8 @@ const services = [
 
     slug: 'google-play-cards',
 
+    categorySlug: 'cards',
+
     title: 'Google Play Cards',
 
     category: 'بطاقات',
@@ -142,7 +182,7 @@ const services = [
     popular: false,
 
     image:
-      'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da',
+      'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=800&auto=format&fit=crop',
 
     description:
       'بطاقات Google Play أصلية لجميع الدول بأسعار ممتازة.',
@@ -160,6 +200,8 @@ const services = [
 
     slug: 'us-number',
 
+    categorySlug: 'numbers',
+
     title: 'أرقام أمريكية',
 
     category: 'أرقام',
@@ -173,7 +215,7 @@ const services = [
     popular: false,
 
     image:
-      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c',
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',
 
     description:
       'أرقام أمريكية للتفعيل والتطبيقات بجودة عالية.',

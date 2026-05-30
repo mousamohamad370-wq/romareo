@@ -9,51 +9,63 @@ import {
   FiShoppingBag
 } from 'react-icons/fi'
 
+import {
+  useNavigate
+} from 'react-router-dom'
+
 const categories = [
   {
     icon: <FiPlay />,
     title: 'شحن الألعاب',
-    description: 'PUBG - Free Fire - Valorant'
+    description: 'PUBG - Free Fire - Valorant',
+    slug: 'games'
   },
 
   {
     icon: <FiCreditCard />,
     title: 'البطاقات الرقمية',
-    description: 'Google Play - iTunes - Steam'
+    description: 'Google Play - iTunes - Steam',
+    slug: 'cards'
   },
 
   {
     icon: <FiMonitor />,
     title: 'الاشتراكات',
-    description: 'Netflix - Shahid - Spotify'
+    description: 'Netflix - Shahid - Spotify',
+    slug: 'subscriptions'
   },
 
   {
     icon: <FiGlobe />,
     title: 'خدمات السوشال',
-    description: 'TikTok - Instagram - YouTube'
+    description: 'TikTok - Instagram - YouTube',
+    slug: 'social'
   },
 
   {
     icon: <FiSmartphone />,
     title: 'أرقام أجنبية',
-    description: 'أرقام تفعيل لجميع التطبيقات'
+    description: 'أرقام تفعيل لجميع التطبيقات',
+    slug: 'numbers'
   },
 
   {
     icon: <FiShoppingBag />,
     title: 'خدمات متنوعة',
-    description: 'ChatGPT Plus وغيرها'
+    description: 'ChatGPT Plus وغيرها',
+    slug: 'other'
   }
 ]
 
 function Categories() {
+
+  const navigate = useNavigate()
+
   return (
+
     <section className="categories section">
 
       <div className="container">
-
-        {/* TITLE */}
 
         <div className="section-title">
 
@@ -67,8 +79,6 @@ function Categories() {
 
         </div>
 
-        {/* GRID */}
-
         <div className="categories-grid">
 
           {categories.map((item, index) => (
@@ -76,6 +86,16 @@ function Categories() {
             <div
               className="category-card"
               key={index}
+
+              onClick={() =>
+                navigate(
+                  `/category/${item.slug}`
+                )
+              }
+
+              style={{
+                cursor: 'pointer'
+              }}
             >
 
               <div className="category-icon">
@@ -99,6 +119,7 @@ function Categories() {
       </div>
 
     </section>
+
   )
 }
 

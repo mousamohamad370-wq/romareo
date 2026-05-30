@@ -70,7 +70,7 @@ function LoginContent() {
 
   /* HANDLE LOGIN */
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
     e.preventDefault()
 
@@ -88,27 +88,16 @@ function LoginContent() {
       return
     }
 
-    setLoading(true)
+    try {
 
-    setTimeout(() => {
+      setLoading(true)
 
-      /* MOCK USER */
+      /* FIREBASE LOGIN */
 
-      const userData = {
-
-        id: 'RM-102548',
-
-        name: 'محمد أحمد',
-
-        email: formData.email,
-
-        wallet: 120
-
-      }
-
-      /* LOGIN */
-
-      login(userData)
+      await login(
+        formData.email,
+        formData.password
+      )
 
       /* SUCCESS */
 
@@ -116,15 +105,69 @@ function LoginContent() {
         'تم تسجيل الدخول بنجاح'
       )
 
-      setLoading(false)
+      /* REDIRECT */
 
       setTimeout(() => {
 
         navigate('/profile')
 
-      }, 400)
+      }, 500)
 
-    }, 1200)
+    } catch (error) {
+
+      console.log(error)
+
+      /* FIREBASE ERRORS */
+
+      if (
+        error.code ===
+        'auth/user-not-found'
+      ) {
+
+        toast.error(
+          'الحساب غير موجود'
+        )
+
+      } else if (
+        error.code ===
+        'auth/wrong-password'
+      ) {
+
+        toast.error(
+          'كلمة المرور غير صحيحة'
+        )
+
+      } else if (
+        error.code ===
+        'auth/invalid-credential'
+      ) {
+
+        toast.error(
+          'البريد أو كلمة المرور غير صحيحة'
+        )
+
+      } else if (
+        error.code ===
+        'auth/invalid-email'
+      ) {
+
+        toast.error(
+          'البريد الإلكتروني غير صالح'
+        )
+
+      } else {
+
+        toast.error(
+          'حدث خطأ أثناء تسجيل الدخول'
+        )
+
+      }
+
+    } finally {
+
+      setLoading(false)
+
+    }
 
   }
 
@@ -199,7 +242,6 @@ function LoginContent() {
 
             <form
               className="auth-form"
-
               onSubmit={handleLogin}
             >
 
@@ -207,19 +249,12 @@ function LoginContent() {
 
               <Input
                 label="البريد الإلكتروني"
-
                 type="email"
-
                 name="email"
-
                 placeholder="example@email.com"
-
                 required={true}
-
                 value={formData.email}
-
                 onChange={handleChange}
-
                 icon={<FiMail />}
               />
 
@@ -227,19 +262,12 @@ function LoginContent() {
 
               <Input
                 label="كلمة المرور"
-
                 type="password"
-
                 name="password"
-
                 placeholder="********"
-
                 required={true}
-
                 value={formData.password}
-
                 onChange={handleChange}
-
                 icon={<FiLock />}
               />
 
@@ -247,9 +275,7 @@ function LoginContent() {
 
               <div className="forgot-password">
 
-                <button
-                  type="button"
-                >
+                <button type="button">
 
                   نسيت كلمة المرور؟
 
@@ -261,17 +287,11 @@ function LoginContent() {
 
               <Button
                 type="submit"
-
                 variant="primary"
-
                 size="lg"
-
                 fullWidth={true}
-
                 disabled={loading}
-
                 className="auth-btn"
-
                 icon={
                   !loading &&
                   <FiArrowLeft />

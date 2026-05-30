@@ -1,7 +1,7 @@
-import './DashboardSidebar.scss'
+import './DashboardLayout.scss'
 
-import DashboardSidebar
-from './DashboardSidebar'
+import DashboardTopbar
+from './DashboardTopbar'
 
 function DashboardLayout({
   children
@@ -11,17 +11,21 @@ function DashboardLayout({
 
     <div className="dashboard-layout">
 
-      {/* SIDEBAR */}
+      <div className="dashboard-main">
 
-      <DashboardSidebar />
+        {/* TOPBAR */}
 
-      {/* CONTENT */}
+        <DashboardTopbar />
 
-      <main className="dashboard-content">
+        {/* PAGE CONTENT */}
 
-        {children}
+        <main className="dashboard-content">
 
-      </main>
+          {children}
+
+        </main>
+
+      </div>
 
     </div>
 
