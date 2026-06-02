@@ -3,6 +3,7 @@ import './Marketplace.scss'
 import { useState } from 'react'
 import { FiSearch, FiStar, FiArrowLeft } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 /* DATA */
 import services from '../../data/services'
@@ -17,7 +18,11 @@ const filters = [
 ]
 
 function MarketplaceContent() {
+  
   const navigate = useNavigate()
+  const { user, isAuthenticated } = useAuth()
+
+const canBuy = isAuthenticated
   const [search, setSearch] = useState('')
   const [activeFilter, setActiveFilter] = useState('الكل')
   const [sort, setSort] = useState('popular')
@@ -42,9 +47,8 @@ function MarketplaceContent() {
   }
 
   /* CHECK IF USER CAN BUY */
-  const user = JSON.parse(localStorage.getItem('user')) // مثال: بيانات المستخدم
-  const canBuy = user?.isAuthenticated && user?.wallet > 0
-
+ 
+console.log(user)
   return (
     <section className="marketplace-page section">
       <div className="container">
@@ -121,22 +125,26 @@ function MarketplaceContent() {
 
                 <div className="card-bottom">
                   <div className="price">
-                    يبدأ من <strong>${service.price}</strong>
+                   <strong>
+  $
+  {service.packages?.[0]?.price ||
+    service.price}
+</strong>
                   </div>
 
-                  <button
-                    disabled={!canBuy}
-                    onClick={e => {
-                      e.stopPropagation()
-                      if (canBuy) navigate(`/service/${service.id}`)
-                    }}
-                    title={
-                      canBuy
-                        ? 'عرض التفاصيل'
-                        : 'لا يمكن الطلب إلا بعد تسجيل الدخول وتعبئة الرصيد'
-                    }
-                  >
-                    {canBuy ? 'طلب الآن' : 'تسجيل / شحن الرصيد'}
+               <button
+  onClick={e => {
+    e.stopPropagation()
+
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
+
+    navigate(`/service/${service.id}`)
+  }}
+>
+{isAuthenticated ? 'طلب الآن' : 'تسجيل الدخول'}
                     <FiArrowLeft />
                   </button>
                 </div>

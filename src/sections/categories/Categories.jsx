@@ -6,7 +6,8 @@ import {
   FiCreditCard,
   FiGlobe,
   FiPlay,
-  FiShoppingBag
+  FiShoppingBag,
+  FiMessageCircle
 } from 'react-icons/fi'
 
 import {
@@ -19,6 +20,13 @@ const categories = [
     title: 'شحن الألعاب',
     description: 'PUBG - Free Fire - Valorant',
     slug: 'games'
+  },
+
+  {
+    icon: <FiMessageCircle />,
+    title: 'الدردشة',
+    description: 'Bigo - Tango - Higo - Chamet',
+    slug: 'chat'
   },
 
   {
@@ -86,13 +94,9 @@ function Categories() {
             <div
               className="category-card"
               key={index}
-
               onClick={() =>
-                navigate(
-                  `/category/${item.slug}`
-                )
+                navigate(`/category/${item.slug}`)
               }
-
               style={{
                 cursor: 'pointer'
               }}

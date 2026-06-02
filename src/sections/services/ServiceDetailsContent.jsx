@@ -13,6 +13,7 @@ import {
 
 import {
   useParams,
+  useNavigate,
   Navigate
 } from 'react-router-dom'
 
@@ -27,6 +28,7 @@ import services from '../../data/services'
 function ServiceDetailsContent() {
 
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const { user } = useAuth()
 
@@ -58,9 +60,7 @@ function ServiceDetailsContent() {
   const totalPrice =
     selectedPackage?.price || 0
 
-  const canPurchase =
-    user &&
-    (user.balance || 0) > 0
+ const canPurchase = !!user
 
   return (
     <>
@@ -80,7 +80,12 @@ function ServiceDetailsContent() {
           <div className="details-grid">
 
             {/* LEFT SIDE */}
-
+<button
+  className="back-btn"
+  onClick={() => navigate('/marketplace')}
+>
+  ← العودة للمتجر
+</button>
             <div className="details-content">
 
               <div className="details-image">
@@ -248,24 +253,25 @@ function ServiceDetailsContent() {
 
               </div>
 
-              <button
-                className="buy-btn"
+       <button
+  className="buy-btn"
+  onClick={() => {
 
-                disabled={!canPurchase}
+    if (!user) {
 
-                onClick={() => {
+      navigate('/login')
+      return
 
-                  if (!canPurchase)
-                    return
+    }
 
-                  setOpenCheckout(true)
+    setOpenCheckout(true)
 
-                }}
-              >
+  }}
+>
 
-                {canPurchase
-                  ? 'متابعة الطلب'
-                  : 'سجل الدخول وأضف رصيد'}
+                {user
+  ? 'متابعة الطلب'
+  : 'تسجيل الدخول'}
 
               </button>
 
